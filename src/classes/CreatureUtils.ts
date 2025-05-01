@@ -1,4 +1,4 @@
-import { dnd_page } from "./dnd_page";
+import { dnd_base_util } from "./base/dnd_base_util";
 
 type StatKey = "str" | "agi" | "vit" | "int" | "wis" | "cha" | "mem";
 type StatList = {
@@ -11,11 +11,11 @@ type StatList = {
 	mem: number;
 };
 
-class CreatureUtils extends dnd_page {
-	get_items(slot_name = ""): dnd_page[] {
+export class CreatureUtils extends dnd_base_util {
+	get_items(slot_name = ""): any[] {
 		const slot_keys = [];
 
-		for (const key in this.frontmatter) {
+		for (const key in this.manager.frontmatter) {
 			if (key.startsWith("slot")) {
 				if (slot_name == "") slot_keys.push(key);
 				else if (key.includes(slot_name)) slot_keys.push(key);

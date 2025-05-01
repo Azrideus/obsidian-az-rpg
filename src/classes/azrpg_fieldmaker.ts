@@ -1,7 +1,8 @@
 import { DataviewApi } from "obsidian-dataview";
-import { az_controller_base } from "./az_controller_base";
-class az_inputmaker extends az_controller_base {
-	static render_statblock(header: string, stat_data: any) {
+import { azrpg_base_class } from "./base/azrpg_base_class";
+
+class azrpg_fieldmaker extends azrpg_base_class {
+	render_statblock(header: string, stat_data: any) {
 		if (!stat_data || header == null) return;
 		this.get_dv().header(2, header);
 		const columns = stat_data.columns;

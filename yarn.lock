@@ -534,10 +534,10 @@ obsidian-daily-notes-interface@0.8.4:
     obsidian obsidianmd/obsidian-api#master
     tslib "2.1.0"
 
-obsidian-dataview@^0.5.68:
-  version "0.5.68"
-  resolved "https://registry.yarnpkg.com/obsidian-dataview/-/obsidian-dataview-0.5.68.tgz#47b377c842306161b8e616ed2ed9e2ede9a30562"
-  integrity sha512-eoYVxqgeAUM64fV6/YXWuXvmm9DaVoR1h/O+vBIHS0yQ+n9x5MaVndD3WjcVWuaJmrMM9iwvutkbZ0aCWpLmHw==
+obsidian-dataview@0.5.66:
+  version "0.5.66"
+  resolved "https://registry.yarnpkg.com/obsidian-dataview/-/obsidian-dataview-0.5.66.tgz#d82443fb29a6169b929094e77a674faafdb25b09"
+  integrity sha512-5hYF1p4RnBpKS0PqxNJjZDoqAk2XrDZ6H3EQ+JOwcQwkoTMbMPMOH1sw9zg1hV5ZWbh+/uAPCRAI/nmvr68yxw==
   dependencies:
     "@codemirror/language" "https://github.com/lishid/cm-language"
     "@codemirror/state" "^6.0.1"
@@ -549,19 +549,18 @@ obsidian-dataview@^0.5.68:
     papaparse "^5.3.1"
     parsimmon "^1.18.0"
     preact "^10.6.5"
-    remove-markdown "^0.5.5"
-
-"obsidian@github:obsidianmd/obsidian-api#master":
-  version "1.8.7"
-  resolved "https://codeload.github.com/obsidianmd/obsidian-api/tar.gz/9ab497e64afeac291a2546d2faeded6a7bed626a"
-  dependencies:
-    "@types/codemirror" "5.60.8"
-    moment "2.29.4"
 
 obsidian@latest:
   version "1.8.7"
   resolved "https://registry.yarnpkg.com/obsidian/-/obsidian-1.8.7.tgz#601e9ea1724289effa4c9bb3b4e20d327263634f"
   integrity sha512-h4bWwNFAGRXlMlMAzdEiIM2ppTGlrh7uGOJS6w4gClrsjc+ei/3YAtU2VdFUlCiPuTHpY4aBpFJJW75S1Tl/JA==
+  dependencies:
+    "@types/codemirror" "5.60.8"
+    moment "2.29.4"
+
+obsidian@obsidianmd/obsidian-api#master:
+  version "1.8.7"
+  resolved "https://codeload.github.com/obsidianmd/obsidian-api/tar.gz/9ab497e64afeac291a2546d2faeded6a7bed626a"
   dependencies:
     "@types/codemirror" "5.60.8"
     moment "2.29.4"
@@ -600,11 +599,6 @@ regexpp@^3.2.0:
   version "3.2.0"
   resolved "https://registry.yarnpkg.com/regexpp/-/regexpp-3.2.0.tgz#0425a2768d8f23bad70ca4b90461fa2f1213e1b2"
   integrity sha512-pq2bWo9mVD43nbts2wGv17XLiNLya+GklZ8kaDLV2Z08gDCsGpnKn9BFMepvWuHCbyVvY7J5o5+BVvoQbmlJLg==
-
-remove-markdown@^0.5.5:
-  version "0.5.5"
-  resolved "https://registry.yarnpkg.com/remove-markdown/-/remove-markdown-0.5.5.tgz#52913da6204391232cbce5a1bf2c26f990bdf8e0"
-  integrity sha512-lMR8tOtDqazFT6W2bZidoXwkptMdF3pCxpri0AEokHg0sZlC2GdoLqnoaxsEj1o7/BtXV1MKtT3YviA1t7rW7g==
 
 reusify@^1.0.4:
   version "1.1.0"

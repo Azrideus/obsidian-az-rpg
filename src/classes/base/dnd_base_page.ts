@@ -1,15 +1,15 @@
-import az_dnd from "main";
+import az_rpg from "main";
 import { CachedMetadata, FrontMatterCache, TFile } from "obsidian";
 
-export class dnd_page {
-	page_ref: TFile | null = null;
-	file_cache: CachedMetadata | null = null;
-	frontmatter: FrontMatterCache | null = null;
+export class dnd_base_page {
+	readonly page_ref: TFile | null = null;
+	readonly file_cache: CachedMetadata | null = null;
+	readonly frontmatter: FrontMatterCache | null = null;
 
-	set(p: TFile | null) {
+	constructor(p: TFile | null = null) {
 		this.page_ref = p;
 		if (this.page_ref != null) {
-			this.file_cache = az_dnd.ref.app.metadataCache.getFileCache(
+			this.file_cache = az_rpg.ref.app.metadataCache.getFileCache(
 				this.page_ref
 			);
 			this.frontmatter = this.file_cache?.frontmatter ?? null;
