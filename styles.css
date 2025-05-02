@@ -6,3 +6,27 @@ available in the app when your plugin is enabled.
 If your plugin does not need CSS, delete this file.
 
 */
+.rpg_header_row {
+	display: flex;
+	flex-direction: row;
+	align-items: center;
+	justify-content: space-between;
+	gap: 0.5em;
+}
+
+.mb-input-textarea {
+	min-height: 200px !important;
+}
+
+table.dataview.table-view-table td > span {
+	display: flex;
+	max-width: 100%;
+}
+table.dataview.table-view-table td > span input {
+	max-width: 100%;
+	width: 100%;
+}
+table.dataview.table-view-table td > span > center {
+	max-width: 100%;
+	width: 100%;
+}

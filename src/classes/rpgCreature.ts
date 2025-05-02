@@ -1,4 +1,5 @@
-import { dnd_base_util } from "./base/dnd_base_util";
+import { rpgBaseClass as rpgBaseClass } from "./base/rpgBaseClass";
+import { rpgItem } from "./rpgItem";
 
 type StatKey = "str" | "agi" | "vit" | "int" | "wis" | "cha" | "mem";
 type StatList = {
@@ -11,41 +12,32 @@ type StatList = {
 	mem: number;
 };
 
-export class CreatureUtils extends dnd_base_util {
-	get_items(slot_name = ""): any[] {
+/**
+ * Base class for all creatures
+ */
+export class rpgCreature extends rpgBaseClass {
+	get_items(slot_name = ""): rpgItem[] {
 		const slot_keys = [];
 
-		for (const key in this.manager.frontmatter) {
+		for (const key in this.frontmatter) {
 			if (key.startsWith("slot")) {
 				if (slot_name == "") slot_keys.push(key);
 				else if (key.includes(slot_name)) slot_keys.push(key);
 			}
 		}
 
-		const unique_items: any = {};
+		const unique_items: { [key: string]: rpgItem } = {};
 		for (const key of slot_keys) {
 			const slot_items = this.getArray(key);
 			slot_items.map((r: any) => {
-				if (!unique_items[r.path]) {
-					unique_items[r.path] = {
-						obj: r,
-						path: r.path,
-						name: r.name,
-						count: 1,
-					};
-					// if (null != this.dv) {
-					// 	// unique_items[r.path].page = this.dv.page(r.path);
-					// }
+				if (!unique_items[r.path] && r) {
+					unique_items[r.path] = new rpgItem(this.app, r);
 				} else {
-					unique_items[r.path].count++;
+					unique_items[r.path].item_count++;
 				}
 			});
 		}
-		for (const key in unique_items) {
-			const item_obj = unique_items[key];
-			item_obj.total_size =
-				Number(Number(item_obj.page.size) * item_obj.count) || 0;
-		}
+
 		return Object.values(unique_items);
 	}
 

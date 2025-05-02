@@ -1,17 +1,24 @@
-import az_rpg from "main";
-import { CachedMetadata, FrontMatterCache, TFile } from "obsidian";
+import { App, CachedMetadata, FrontMatterCache, TFile } from "obsidian";
+import { DataviewApi, getAPI } from "obsidian-dataview";
+import { rpgUtils } from "../../controllers/rpgUtils";
 
-export class dnd_base_page {
-	readonly page_ref: TFile | null = null;
+/**
+ * Wrapper class for all classes in the azrpg project.
+ */
+export class rpgBaseClass {
+	readonly app: App;
+	readonly file: TFile | null = null;
 	readonly file_cache: CachedMetadata | null = null;
 	readonly frontmatter: FrontMatterCache | null = null;
-
-	constructor(p: TFile | null = null) {
-		this.page_ref = p;
-		if (this.page_ref != null) {
-			this.file_cache = az_rpg.ref.app.metadataCache.getFileCache(
-				this.page_ref
-			);
+	constructor(app: App, p: TFile | string) {
+		this.app = app;
+		if (typeof p === "string") {
+			this.file = rpgUtils.getFileFromPath(app, p);
+		} else {
+			this.file = p;
+		}
+		if (this.file != null) {
+			this.file_cache = app.metadataCache.getFileCache(this.file);
 			this.frontmatter = this.file_cache?.frontmatter ?? null;
 		} else {
 			this.file_cache = null;

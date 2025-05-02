@@ -34,6 +34,19 @@ export default class az_rpg extends Plugin {
 		this.addRibbonIcon("dice", "Open Hello World View", () => {
 			this.activateView(VIEW_TYPE_STAT);
 		});
+
+		this.registerMarkdownCodeBlockProcessor(
+			"azdnd",
+			async (source, el, ctx) => {
+				// source = contents inside the code block
+				// el = HTML element to render into
+				// ctx = MarkdownPostProcessorContext
+
+				// Example: render a styled custom component
+				const container = el.createDiv({ cls: "myplugin-block" });
+				container.setText(`Hello from MyPlugin!\nContent:\n${source}`);
+			}
+		);
 	}
 
 	async activateView(view_name: string) {
