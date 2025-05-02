@@ -1,3 +1,4 @@
+import { rpgUtils } from "src/controllers/rpgUtils";
 import { rpgBaseClass as rpgBaseClass } from "./base/rpgBaseClass";
 import { rpgItem } from "./rpgItem";
 
@@ -30,10 +31,15 @@ export class rpgCreature extends rpgBaseClass {
 		for (const key of slot_keys) {
 			const slot_items = this.getArray(key);
 			slot_items.map((r: any) => {
-				if (!unique_items[r.path] && r) {
-					unique_items[r.path] = new rpgItem(this.app, r);
+				const item_file = rpgUtils.getFileFromPath(this.app, r);
+				if (null == item_file) return;
+				if (item_file.path in unique_items) {
+					unique_items[item_file.path].item_count++;
 				} else {
-					unique_items[r.path].item_count++;
+					unique_items[item_file.path] = new rpgItem(
+						this.app,
+						item_file
+					);
 				}
 			});
 		}

@@ -73,9 +73,7 @@ export class rpgUtils {
 		filePath: string
 	) {
 		setTimeout(() => {
-			console.log("hookMarkdownLinkMouseEventHandlers", containerEl);
 			containerEl.querySelectorAll("a.internal-link").forEach((el) => {
-				console.log("hookMarkdownLinkMouseEventHandlers", el);
 				el.addEventListener("click", (evt: MouseEvent) => {
 					evt.preventDefault();
 					const linktext = el.getAttribute("href");

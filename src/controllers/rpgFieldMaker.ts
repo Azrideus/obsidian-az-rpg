@@ -4,13 +4,25 @@ import { rpgBaseExtendedComponent } from "src/views/base/rpgBaseExtendedComponen
 import { MarkdownRenderer } from "obsidian";
 
 export class rpgFieldMaker {
+	static markdownTable(headers: string[], rows: string[][]): string {
+		const escape = (cell: string) => String(cell).replace(/\|/g, "\\|");
+
+		const headerLine = "| " + headers.map(escape).join(" | ") + " |";
+		const separatorLine =
+			"| " + headers.map(() => "---").join(" | ") + " |";
+		const rowLines = rows.map(
+			(row) => "| " + row.map(escape).join(" | ") + " |"
+		);
+
+		return [headerLine, separatorLine, ...rowLines].join("\n");
+	}
 	static async render_statblock(
 		cmp: rpgBaseExtendedComponent,
-		header: string,
+		key: string,
 		stat_data: any
 	) {
-		if (!stat_data || header == null) return;
-
+		if (!stat_data || key == null) return;
+		const header = stat_data.header || key;
 		cmp.containerEl.createEl("h2", {
 			text: `${header}`,
 		});
@@ -32,11 +44,15 @@ export class rpgFieldMaker {
 		return 1;
 	}
 
-	static async markdown(cmp: rpgBaseExtendedComponent, content: string) {
+	static async markdown(
+		cmp: rpgBaseExtendedComponent,
+		content: string,
+		forced_element?: HTMLElement
+	) {
 		await MarkdownRenderer.render(
 			cmp.app,
 			content,
-			cmp.containerEl as any,
+			forced_element ?? (cmp.containerEl as any),
 			cmp.fp,
 			cmp
 		);

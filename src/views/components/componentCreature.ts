@@ -61,144 +61,8 @@ export class componentCreature extends rpgBaseExtendedComponent {
 		return sum_row.map((r) => `<center><b>${r}</b></center>`);
 	}
 	async onload() {
-		/* -------------------------------------------------------------------------- */
-		/*                                  StatBlock                                 */
-		/* -------------------------------------------------------------------------- */
-		const details = this.creature.get_details();
-		const stats = Object.values(this.creature.get_stats(true)).map(
-			(r) =>
-				/**
-				 * DND 5e Stats start at 10
-				 */
-				//Number(r) + 10
-				r
-		);
-		const key_details = [
-			details.level,
-			details.hp,
-			details.blood,
-			details.speed,
-			details.ap,
-			details.power,
-		];
-
-		const data = {
-			layout: "Vampire",
-			...details,
-			key_details: Object.values(key_details),
-			image: this.creature.get("image"),
-			name: this.fn,
-			stats: stats,
-		};
-		let data_str = "";
-		for (const key in data) {
-			let value_str = (data as any)[key];
-			if (Array.isArray(value_str)) {
-				value_str = "[" + "" + value_str.join(", ") + "]";
-			} else value_str = String(value_str);
-
-			data_str += `${key}: ${value_str}\n`;
-		}
-		await rpgFieldMaker.markdown(this, `~~~statblock\n${data_str}\n~~~`);
-		/* -------------------------------------------------------------------------- */
-		/*                                   Fields                                   */
-		/* -------------------------------------------------------------------------- */
-		const levelup_details = this.creature.get_level_up_details();
-		const type_selector = `INPUT[inlineSelect(
-						option(npc, NPC),
-						option(player, Player)
-					):type]`;
-		const clan_selector = `INPUT[inlineSelect(
-						option(#y, Y),
-						option(#x, X)
-					):clan]`;
-		const is_player = this.creature.is_player();
-		const stat_cols = [];
-		if (is_player) {
-			stat_cols.push(...["Stat", "Multiplier X", "Value"]);
-		} else {
-			stat_cols.push(
-				...[
-					"Stat",
-					"Multiplier X",
-					"Value",
-					"Auto Upgrade",
-					"Auto Value",
-				]
-			);
-		}
-
-		let stat_rows = this.get_stat_rows();
-		stat_rows["Sum"] = this.get_stat_sum_row();
-		const info_data = {
-			Information: {
-				columns: ["Field", "Value", ""],
-				data: {
-					Name: ["INPUT[text:name]", type_selector],
-					Image: [
-						`INPUT[imageSuggester(optionQuery("${rpgUtils.getAppPathPrefix()}Images")):image]`,
-						clan_selector,
-					],
-					Level: [
-						"INPUT[number:level]",
-						`Points: ${levelup_details.points}`,
-					],
-					Pureblood: [
-						"INPUT[number:pb]",
-						`${levelup_details.pb_current}/${levelup_details.pb_cost}`,
-					],
-				},
-			},
-			Stats: {
-				columns: stat_cols,
-				data: stat_rows,
-			},
-		};
-		const stat_data = {
-			Classes: {
-				columns: ["Class", "Level", ""],
-				data: {
-					Enhancer: "INPUT[number:Enhancer]",
-					Emission: "INPUT[number:Emission]",
-					Transmutation: "INPUT[number:Transmutation]",
-					Manipulator: "INPUT[number:Manipulator]",
-					Conjuration: "INPUT[number:Conjuration]",
-					Special: "INPUT[number:Special]",
-				},
-			},
-		};
-
-		for (const header in info_data) {
-			await rpgFieldMaker.render_statblock(
-				this,
-				header,
-				(info_data as any)[header]
-			);
-		}
-		/* ---------------------------- level up progress --------------------------- */
-
-		for (const header in stat_data) {
-			await rpgFieldMaker.render_statblock(
-				this,
-				header,
-				(info_data as any)[header]
-			);
-		}
-
-		/* -------------------------------------------------------------------------- */
-		/*                                   Skills                                   */
-		/* -------------------------------------------------------------------------- */
-		this.containerEl.createEl("h4", { text: "Ultimate" });
-		await rpgFieldMaker.markdown(
-			this,
-			`~~~meta-bind\nINPUT[textArea:ultimate]\n~~~`
-		);
-
-		this.containerEl.createEl("h4", { text: "Skills" });
-		await rpgFieldMaker.markdown(
-			this,
-			`~~~meta-bind\nINPUT[textArea:skills]\n~~~`
-		);
+		this.statblock_area();
+		this.stat_area();
 		/* -------------------------------------------------------------------------- */
 		/*                                    Items                                   */
 		/* -------------------------------------------------------------------------- */
@@ -296,6 +160,146 @@ export class componentCreature extends rpgBaseExtendedComponent {
 			this.containerEl,
 			this.fp,
 			this.fp
+		);
+	}
+
+	async statblock_area() {
+		/* -------------------------------------------------------------------------- */
+		/*                                  StatBlock                                 */
+		/* -------------------------------------------------------------------------- */
+		const details = this.creature.get_details();
+		const stats = Object.values(this.creature.get_stats(true)).map(
+			(r) =>
+				/**
+				 * DND 5e Stats start at 10
+				 */
+				//Number(r) + 10
+				r
+		);
+		const key_details = [
+			details.level,
+			details.hp,
+			details.blood,
+			details.speed,
+			details.ap,
+			details.power,
+		];
+
+		const data = {
+			layout: "Vampire",
+			...details,
+			key_details: Object.values(key_details),
+			image: this.creature.get("image"),
+			name: this.fn,
+			stats: stats,
+		};
+		let data_str = "";
+		for (const key in data) {
+			let value_str = (data as any)[key];
+			if (Array.isArray(value_str)) {
+				value_str = "[" + "" + value_str.join(", ") + "]";
+			} else value_str = String(value_str);
+
+			data_str += `${key}: ${value_str}\n`;
+		}
+		await rpgFieldMaker.markdown(this, `~~~statblock\n${data_str}\n~~~`);
+	}
+	async stat_area() {
+		const levelup_details = this.creature.get_level_up_details();
+		const type_selector = `INPUT[inlineSelect(
+						option(npc, NPC),
+						option(player, Player)
+					):type]`;
+		const clan_selector = `INPUT[inlineSelect(
+						option(#y, Y),
+						option(#x, X)
+					):clan]`;
+		const is_player = this.creature.is_player();
+		const stat_cols = [];
+		if (is_player) {
+			stat_cols.push(...["Stat", "Multiplier X", "Value"]);
+		} else {
+			stat_cols.push(
+				...[
+					"Stat",
+					"Multiplier X",
+					"Value",
+					"Auto Upgrade",
+					"Auto Value",
+				]
+			);
+		}
+		let stat_rows = this.get_stat_rows();
+		stat_rows["Sum"] = this.get_stat_sum_row();
+		const info_data = {
+			Information: {
+				columns: ["Field", "Value", ""],
+				data: {
+					Name: ["INPUT[text:name]", type_selector],
+					Image: [
+						`INPUT[imageSuggester(optionQuery("${rpgUtils.getAppPathPrefix()}Images")):image]`,
+						clan_selector,
+					],
+					Level: [
+						"INPUT[number:level]",
+						`Points: ${levelup_details.points}`,
+					],
+					Pureblood: [
+						"INPUT[number:pb]",
+						`${levelup_details.pb_current}/${levelup_details.pb_cost}`,
+					],
+				},
+			},
+			Stats: {
+				header: `Stats (${levelup_details.points})`,
+				columns: stat_cols,
+				data: stat_rows,
+			},
+		};
+		const stat_data = {
+			Classes: {
+				columns: ["Class", "Level", ""],
+				data: {
+					Enhancer: "INPUT[number:Enhancer]",
+					Emission: "INPUT[number:Emission]",
+					Transmutation: "INPUT[number:Transmutation]",
+					Manipulator: "INPUT[number:Manipulator]",
+					Conjuration: "INPUT[number:Conjuration]",
+					Special: "INPUT[number:Special]",
+				},
+			},
+		};
+
+		for (const header in info_data) {
+			await rpgFieldMaker.render_statblock(
+				this,
+				header,
+				(info_data as any)[header]
+			);
+		}
+		/* ---------------------------- level up progress --------------------------- */
+
+		for (const header in stat_data) {
+			await rpgFieldMaker.render_statblock(
+				this,
+				header,
+				(info_data as any)[header]
+			);
+		}
+
+		/* -------------------------------------------------------------------------- */
+		/*                                   Skills                                   */
+		/* -------------------------------------------------------------------------- */
+		this.containerEl.createEl("h4", { text: "Ultimate" });
+		await rpgFieldMaker.markdown(
+			this,
+			`~~~meta-bind\nINPUT[textArea:ultimate]\n~~~`
+		);
+
+		this.containerEl.createEl("h4", { text: "Skills" });
+		await rpgFieldMaker.markdown(
+			this,
+			`~~~meta-bind\nINPUT[textArea:skills]\n~~~`
 		);
 	}
 }

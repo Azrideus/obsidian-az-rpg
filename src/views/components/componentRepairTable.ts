@@ -40,7 +40,7 @@ export class componentRepairTable extends rpgBaseExtendedComponent {
 
 			const item_total_repair_time = item_repair_time * item_count;
 			rows.push([
-				`[[${item.file?.path}|${item.file?.name}]]`,
+				`[[${item.file?.path}|${item.file?.basename}]]`,
 				item_repair_time,
 				item_count,
 				item_total_repair_time,
@@ -54,9 +54,6 @@ export class componentRepairTable extends rpgBaseExtendedComponent {
 			/**
 			 * there is no repair cost
 			 */
-			this.containerEl.createEl("p", {
-				text: `> [!info]- No Repair Cost`,
-			});
 		} else {
 			/* -------------------------------- Subtotal -------------------------------- */
 			rows.push([
@@ -69,7 +66,11 @@ export class componentRepairTable extends rpgBaseExtendedComponent {
 			const final_text =
 				`> [!note]- Maintenance Time: ${total_repair_time} - Lab: ${lab_total_repair_time} \n>` +
 				this.dv.markdownTable(cols, rows);
-			this.containerEl.createEl("p", { text: final_text });
+
+			const wrapper_el = this.containerEl.createEl("div", {
+				cls: "markdown-rendered rpg-selectable",
+			});
+			rpgFieldMaker.markdown(this, final_text, wrapper_el);
 		}
 	}
 }

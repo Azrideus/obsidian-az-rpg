@@ -13,7 +13,11 @@ If your plugin does not need CSS, delete this file.
 	justify-content: space-between;
 	gap: 0.5em;
 }
-
+.rpg-selectable {
+	user-select: text;
+	-webkit-user-select: text; /* Safari */
+	caret-color: unset;
+}
 .mb-input-textarea {
 	min-height: 200px !important;
 }
