@@ -39,33 +39,70 @@ export class rpgUtils {
 	/**
 	 * get the active file and check if its #item or #creature
 	 */
-	static getFileRpgType(app: App, file: TFile): RPG_FileType {
+	static getFileRpgType(
+		app: App,
+		file: TFile,
+		use_folder = true
+	): RPG_FileType {
 		const tags = app.metadataCache.getFileCache(file)?.tags || [];
-		const tag_mapping: RPG_FileTypeObject = {
+
+		const tag_mappings: RPG_FileTypeObject = {
 			creature: ["#creature", "#npc", "#monster", "#player"],
-			item: ["#item"],
+			item: ["#item", "items"],
 			none: [],
 		};
-		let tag: RPG_FileType;
-		for (tag in tag_mapping) {
-			const tag_list = tag_mapping[tag];
-			if (Array.isArray(tag_list)) {
+		const folder_mappings: RPG_FileTypeObject = {
+			creature: [
+				"creature",
+				"npc",
+				"monster",
+				"player",
+				"creatures",
+				"npcs",
+				"monsters",
+				"players",
+			],
+			item: ["item", "items"],
+			none: [],
+		};
+
+		let mapping_key: RPG_FileType;
+		for (mapping_key in tag_mappings) {
+			const mapping_list = tag_mappings[mapping_key];
+			if (!Array.isArray(mapping_list)) continue;
+			if (
+				mapping_list.some((mapping) =>
+					tags.some((tag) => rpgUtils.str_eq(tag.tag, mapping))
+				)
+			)
+				return mapping_key;
+		}
+
+		const file_path = file.parent?.path || "";
+
+		if (use_folder && file_path !== "") {
+			const file_parts = file_path.split("/");
+			console.log(file_parts);
+			/* -------------------------- get type from folder -------------------------- */
+			for (mapping_key in folder_mappings) {
+				const mapping_list = folder_mappings[mapping_key];
+				if (!Array.isArray(mapping_list)) continue;
 				if (
-					tag_list.some((t) =>
-						tags.some(
-							(tag) =>
-								String(tag.tag).toLowerCase() ===
-								String(t).toLowerCase()
+					mapping_list.some((mapping) =>
+						file_parts.some((part) =>
+							rpgUtils.str_eq(part, mapping)
 						)
 					)
-				) {
-					return tag;
-				}
+				)
+					return mapping_key;
 			}
 		}
+
 		return "none";
 	}
-
+	static str_eq(a: any, b: any) {
+		return String(a).toLowerCase() === String(b).toLowerCase();
+	}
 	static hookMarkdownLinkMouseEventHandlers(
 		app: App,
 		containerEl: HTMLElement,

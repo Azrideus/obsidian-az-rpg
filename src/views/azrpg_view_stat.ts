@@ -10,6 +10,10 @@ import { azrpg_view_base } from "./base/azrpg_view_base";
 import { rpgUtils, RPG_FileType } from "../controllers/rpgUtils";
 import { rpgCreature } from "../classes/rpgCreature";
 import { componentCreature } from "./components/componentCreature";
+import { rpgItem } from "src/classes/rpgItem";
+import { componentItem } from "./components/componentItem";
+import { rpgBaseClass } from "src/classes/base/rpgBaseClass";
+import { rpgBaseExtendedComponent } from "./base/rpgBaseExtendedComponent";
 
 export const VIEW_TYPE_STAT = "rpg_view";
 
@@ -22,8 +26,9 @@ export const VIEW_TYPE_STAT = "rpg_view";
 export class azrpg_view_stat extends azrpg_view_base {
 	target_file: TFile;
 	target_file_type: RPG_FileType;
-	creature: rpgCreature;
-	cmp_creature: componentCreature;
+
+	target_class: rpgBaseClass;
+	cmp: rpgBaseExtendedComponent;
 
 	refreshButton: HTMLElement;
 	headerRow: HTMLElement;
@@ -97,18 +102,22 @@ export class azrpg_view_stat extends azrpg_view_base {
 	}
 	refresh() {
 		this.contentContainer.empty();
-
 		switch (this.target_file_type) {
 			case "creature":
-				this.creature = new rpgCreature(this.app, this.target_file);
-				this.cmp_creature = new componentCreature(
+				this.target_class = new rpgCreature(this.app, this.target_file);
+				this.cmp = new componentCreature(
 					this.app,
 					this.contentContainer,
-					this.creature
+					this.target_class as rpgCreature
 				);
-				this.cmp_creature.load();
 				break;
 			case "item":
+				this.target_class = new rpgItem(this.app, this.target_file);
+				this.cmp = new componentItem(
+					this.app,
+					this.contentContainer,
+					this.target_class as rpgItem
+				);
 				break;
 			default:
 				this.contentContainer.createEl("span", {
@@ -116,6 +125,7 @@ export class azrpg_view_stat extends azrpg_view_base {
 				});
 				break;
 		}
+		if (this.cmp != null) this.cmp.load();
 	}
 
 	async onOpen() {}

@@ -129,6 +129,7 @@ export class rpgCreature extends rpgBaseClass {
 
 	/**
 	 * get total points spent in stat category
+	 * TODO totals based on Multiplier?
 	 */
 	get_stat_totals(use_auto = true) {
 		const stat_keys = this.get_stat_keys();

@@ -1,11 +1,4 @@
-import {
-	App,
-	Component,
-	ItemView,
-	MarkdownRenderer,
-	TFile,
-	WorkspaceLeaf,
-} from "obsidian";
+import { App } from "obsidian";
 import { rpgBaseExtendedComponent } from "../base/rpgBaseExtendedComponent";
 import { rpgFieldMaker } from "src/controllers/rpgFieldMaker";
 import { rpgCreature } from "src/classes/rpgCreature";
@@ -61,8 +54,8 @@ export class componentCreature extends rpgBaseExtendedComponent {
 		return sum_row.map((r) => `<center><b>${r}</b></center>`);
 	}
 	async onload() {
-		this.statblock_area();
-		this.stat_area();
+		await this.statblock_area();
+		await this.stat_area();
 		/* -------------------------------------------------------------------------- */
 		/*                                    Items                                   */
 		/* -------------------------------------------------------------------------- */
@@ -138,6 +131,7 @@ export class componentCreature extends rpgBaseExtendedComponent {
 					Perception: "INPUT[number:Perception]",
 					Survival: "INPUT[number:Survival]",
 					Driving: "INPUT[number:Driving]",
+					Guns: "INPUT[number:Guns]",
 
 					// Charisma
 					Deception: "INPUT[number:Deception]",
@@ -235,7 +229,7 @@ export class componentCreature extends rpgBaseExtendedComponent {
 			Information: {
 				columns: ["Field", "Value", ""],
 				data: {
-					Name: ["INPUT[text:name]", type_selector],
+					Nickname: ["INPUT[text:nickname]", type_selector],
 					Image: [
 						`INPUT[imageSuggester(optionQuery("${rpgUtils.getAppPathPrefix()}Images")):image]`,
 						clan_selector,
