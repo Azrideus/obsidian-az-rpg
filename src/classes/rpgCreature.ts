@@ -157,13 +157,26 @@ export class rpgCreature extends rpgBaseClass {
 		 * 6-10 =  Level*400   +4 point per level
 		 * 11-15 = Level*500   +5 point per level
 		 */
-		const next_level = this.getNum("level") + 1;
-		const next_level_tier = Math.ceil(next_level / 5);
-		const pb_cost = next_level * (next_level_tier * 100 + 200);
-		let points = 3;
-		for (let i = 1; i < this.getNum("level"); i++) {
-			points += 3 + Math.floor(this.getNum("level") / 5);
+		const level = this.getNum("level");
+
+		let points = 0;
+		for (let i = 1; i <= level; i++) {
+			const level_points = 3 + Math.floor(i / 5);
+			points += level_points;
+			// console.log("give points for level", i, level_points);
 		}
+
+		const next_level = level + 1;
+		const next_level_tier = Math.floor(level / 5) + 1;
+		const pb_cost = next_level * (next_level_tier * 100 + 200);
+
+		// console.log(
+		// 	`Level: ${level}
+		// 		Next Level: ${next_level}
+		// 		Next Tier: ${next_level_tier}
+		// 		points: ${points}
+		// 		PB Cost: ${pb_cost}`
+		// );
 		return {
 			points: points,
 			pb_cost: pb_cost,
