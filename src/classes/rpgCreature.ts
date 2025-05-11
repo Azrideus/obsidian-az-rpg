@@ -168,7 +168,7 @@ export class rpgCreature extends rpgBaseClass {
 
 		const next_level = level + 1;
 		const next_level_tier = Math.floor(level / 5) + 1;
-		const pb_cost = next_level * (next_level_tier * 100 + 200);
+		const pb_cost = next_level * (next_level_tier * 10 + 20);
 
 		// console.log(
 		// 	`Level: ${level}
