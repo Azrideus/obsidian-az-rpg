@@ -15,28 +15,18 @@ export class componentCreature extends rpgBaseExtendedComponent {
 		super(app, container);
 		this.creature = creature;
 	}
-	get_stat_columns(stat: string) {
-		if (this.creature.is_player()) {
-			return [`mod_${stat}`, `${stat}`];
-		} else {
-			return [`mod_${stat}`, `${stat}`, `auto_${stat}`];
-		}
+	get_stat_column_name(stat: string) {
+		return [`mod_${stat}`, `auto_${stat}`, `${stat}`];
 	}
 	get_stat_rows() {
 		const stat_rows: any = {};
 		const stats = this.creature.get_stats(true);
 		const stat_keys = this.creature.get_stat_keys();
-		const is_player = this.creature.is_player();
-
 		stat_keys.map((s) => {
-			const fns = this.get_stat_columns(s);
+			const fns = this.get_stat_column_name(s);
 			const row = fns.map((r) => `INPUT[number(placeholder(${r})):${r}]`);
-			if (!is_player) {
-				row.push(String(stats[s])); //auto row
-			}
 			stat_rows[s] = row;
 		});
-
 		return stat_rows;
 	}
 	get_stat_sum_row() {
@@ -44,13 +34,11 @@ export class componentCreature extends rpgBaseExtendedComponent {
 		const levelup_details = this.creature.get_level_up_details();
 		const sum_row = [
 			stat_totals["mod"],
+			stat_totals["auto_upgrade"],
 			stat_totals["spent"] + "/" + levelup_details.points,
+			stat_totals["final"] + "/" + levelup_details.points,
 		];
 
-		if (!this.creature.is_player()) {
-			sum_row.push(stat_totals["auto_upgrade"]);
-			sum_row.push(stat_totals["final"]);
-		}
 		return sum_row.map((r) => `<center><b>${r}</b></center>`);
 	}
 	async onload() {
@@ -210,22 +198,16 @@ export class componentCreature extends rpgBaseExtendedComponent {
 					):clan]`;
 		const is_player = this.creature.is_player();
 		const stat_cols = [];
-		if (is_player) {
-			stat_cols.push(
-				...["Stat", "Multiplier X", "Spent Points", "Final Value"]
-			);
-		} else {
-			stat_cols.push(
-				...[
-					"Stat",
-					"Multiplier X",
-					"Spent Points",
-					"Auto Upgrade",
-					"Final Value",
-				]
-			);
-		}
-		//TODO auto Upgrade column fix
+
+		stat_cols.push(
+			...[
+				"Stat",
+				"Multiplier X",
+				"Auto Upgrade",
+				"Spent Points",
+				"Final Value",
+			]
+		);
 		let stat_rows = this.get_stat_rows();
 		stat_rows["Sum"] = this.get_stat_sum_row();
 

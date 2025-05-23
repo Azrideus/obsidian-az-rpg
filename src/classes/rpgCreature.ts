@@ -173,9 +173,9 @@ export class rpgCreature extends rpgBaseClass {
 	}
 	get_level_up_details() {
 		/**
-		 * 1-5 =   Level*300   +3 point per level
-		 * 6-10 =  Level*400   +4 point per level
-		 * 11-15 = Level*500   +5 point per level
+		 * 1-5 =   Level*30   +3 point per level
+		 * 6-10 =  Level*40   +4 point per level
+		 * 11-15 = Level*50   +5 point per level
 		 */
 		const level = this.getNum("level");
 
@@ -185,14 +185,16 @@ export class rpgCreature extends rpgBaseClass {
 			points += level_points;
 			// console.log("give points for level", i, level_points);
 		}
-		const pb_cost = (level + 1) * this.get_level_tier(level + 1) * 100;
+
+		const next_level = level + 1;
+		const pb_cost = next_level * this.get_level_tier(next_level) * 10;
 
 		// console.log(
 		// 	`Level: ${level}
-		// 		Next Level: ${next_level}
-		// 		Next Tier: ${next_level_tier}
-		// 		points: ${points}
-		// 		PB Cost: ${pb_cost}`
+		//  		Next Level: ${next_level}
+		//  		Next Tier: ${this.get_level_tier(next_level)}
+		//  		points: ${points}
+		//  		PB Cost: ${pb_cost}`
 		// );
 		return {
 			points: points,
