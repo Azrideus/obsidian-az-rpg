@@ -44,7 +44,7 @@ export class componentCreature extends rpgBaseExtendedComponent {
 		const levelup_details = this.creature.get_level_up_details();
 		const sum_row = [
 			stat_totals["mod"],
-			stat_totals["base"] + "/" + levelup_details.points,
+			stat_totals["spent"] + "/" + levelup_details.points,
 		];
 
 		if (!this.creature.is_player()) {
@@ -211,20 +211,24 @@ export class componentCreature extends rpgBaseExtendedComponent {
 		const is_player = this.creature.is_player();
 		const stat_cols = [];
 		if (is_player) {
-			stat_cols.push(...["Stat", "Multiplier X", "Value"]);
+			stat_cols.push(
+				...["Stat", "Multiplier X", "Spent Points", "Final Value"]
+			);
 		} else {
 			stat_cols.push(
 				...[
 					"Stat",
 					"Multiplier X",
-					"Value",
+					"Spent Points",
 					"Auto Upgrade",
-					"Auto Value",
+					"Final Value",
 				]
 			);
 		}
+		//TODO auto Upgrade column fix
 		let stat_rows = this.get_stat_rows();
 		stat_rows["Sum"] = this.get_stat_sum_row();
+
 		const info_data = {
 			Information: {
 				columns: ["Field", "Value", ""],

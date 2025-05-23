@@ -65,7 +65,7 @@ export class rpgCreature extends rpgBaseClass {
 			});
 
 			const total_points = this.get_level_up_details().points;
-			const used_points = this.get_stat_totals(false).base;
+			const used_points = this.get_stat_totals(false).spent;
 			let remaining_points = total_points - used_points;
 			const result_stats = this.get_stats(false);
 
@@ -133,42 +133,59 @@ export class rpgCreature extends rpgBaseClass {
 	 */
 	get_stat_totals(use_auto = true) {
 		const stat_keys = this.get_stat_keys();
-		const stat_totals = { mod: 0, base: 0, auto_upgrade: 0, final: 0 };
+		const stat_totals = { mod: 0, spent: 0, auto_upgrade: 0, final: 0 };
 		for (const stat of stat_keys) {
-			const sum_keys = [`mod_${stat}`, stat, `auto_${stat}`];
-			stat_totals["mod"] += this.getNum(sum_keys[0]);
-			stat_totals["base"] += this.getNum(sum_keys[1]);
-			stat_totals["auto_upgrade"] += this.getNum(sum_keys[2]);
+			const sum_keys = [`mod_${stat}`, stat, `auto_${stat}`]; //Read Value from fields filled by user
+
+			const mod = this.getNum(sum_keys[0]);
+			const spent = this.getNum(sum_keys[1]);
+			const auto_upgrade = this.getNum(sum_keys[2]);
+
+			stat_totals["mod"] += mod;
+			stat_totals["spent"] += spent;
+			stat_totals["auto_upgrade"] += auto_upgrade;
+			stat_totals["final"] += mod * spent;
 		}
 
-		if (use_auto) {
-			const stats = this.get_stats();
-			for (const s in stats) {
-				stat_totals["final"] += stats[s as StatKey];
-			}
-		}
+		// if (use_auto) {
+		// 	const stats = this.get_stats();
+		// 	for (const s in stats) {
+		// 		stat_totals["final"] += stats[s as StatKey];
+		// 	}
+		// }
 
 		return stat_totals;
 	}
 
+	/**
+	 * 1-5 = 3
+	 * 6-10 = 4
+	 * 11-15 = 5
+	 * @param level
+	 * @returns
+	 */
+	get_level_tier(level: number) {
+		let level_tier = 3;
+		if (level >= 6) level_tier++;
+		if (level >= 11) level_tier++;
+		if (level >= 16) level_tier++;
+		return level_tier;
+	}
 	get_level_up_details() {
 		/**
-		 * 1-5 =  Level*300  +3 point per level
+		 * 1-5 =   Level*300   +3 point per level
 		 * 6-10 =  Level*400   +4 point per level
 		 * 11-15 = Level*500   +5 point per level
 		 */
 		const level = this.getNum("level");
 
 		let points = 0;
-		for (let i = 1; i <= level; i++) {
-			const level_points = 3 + Math.floor(i / 5);
+		for (let i = 0; i <= level; i++) {
+			const level_points = this.get_level_tier(i);
 			points += level_points;
 			// console.log("give points for level", i, level_points);
 		}
-
-		const next_level = level + 1;
-		const next_level_tier = Math.floor(level / 5) + 1;
-		const pb_cost = next_level * (next_level_tier * 10 + 20);
+		const pb_cost = (level + 1) * this.get_level_tier(level + 1) * 100;
 
 		// console.log(
 		// 	`Level: ${level}
