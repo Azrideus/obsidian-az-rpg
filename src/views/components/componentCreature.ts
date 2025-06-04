@@ -21,7 +21,7 @@ export class componentCreature extends rpgBaseExtendedComponent {
 	get_stat_rows() {
 		const stat_rows: any = {};
 		const stats = this.creature.get_stats(true);
-		const stat_keys = this.creature.get_stat_keys();
+		const stat_keys = this.creature.get_attribute_keys();
 		stat_keys.map((s) => {
 			const fns = this.get_stat_column_name(s);
 			const row = fns.map((r) => `INPUT[number(placeholder(${r})):${r}]`);
@@ -42,7 +42,7 @@ export class componentCreature extends rpgBaseExtendedComponent {
 		return sum_row.map((r) => `<center><b>${r}</b></center>`);
 	}
 	async onload() {
-		await this.statblock_area();
+		await this.view_stat_block();
 		await this.stat_area();
 		/* -------------------------------------------------------------------------- */
 		/*                                    Items                                   */
@@ -145,12 +145,12 @@ export class componentCreature extends rpgBaseExtendedComponent {
 		);
 	}
 
-	async statblock_area() {
+	async view_stat_block() {
 		/* -------------------------------------------------------------------------- */
 		/*                                  StatBlock                                 */
 		/* -------------------------------------------------------------------------- */
 		const details = this.creature.get_details();
-		const stats = Object.values(this.creature.get_stats(true)).map(
+		const stats = Object.values(this.creature.get_stats()).map(
 			(r) =>
 				/**
 				 * DND 5e Stats start at 10
@@ -187,7 +187,6 @@ export class componentCreature extends rpgBaseExtendedComponent {
 		await rpgFieldMaker.markdown(this, `~~~statblock\n${data_str}\n~~~`);
 	}
 	async stat_area() {
-		const levelup_details = this.creature.get_level_up_details();
 		const type_selector = `INPUT[inlineSelect(
 						option(npc, NPC),
 						option(player, Player)
@@ -197,45 +196,6 @@ export class componentCreature extends rpgBaseExtendedComponent {
 						option(#x, X)
 					):clan]`;
 		const is_player = this.creature.is_player();
-		const stat_cols = [];
-
-		stat_cols.push(
-			...[
-				"Stat",
-				"Multiplier X",
-				"Auto Upgrade",
-				"Spent Points",
-				"Final Value",
-			]
-		);
-		let stat_rows = this.get_stat_rows();
-		stat_rows["Sum"] = this.get_stat_sum_row();
-
-		const info_data = {
-			Information: {
-				columns: ["Field", "Value", ""],
-				data: {
-					Nickname: ["INPUT[text:nickname]", type_selector],
-					Image: [
-						`INPUT[imageSuggester(optionQuery("${rpgUtils.getAppPathPrefix()}Images")):image]`,
-						clan_selector,
-					],
-					Level: [
-						"INPUT[number:level]",
-						`Points: ${levelup_details.points}`,
-					],
-					Pureblood: [
-						"INPUT[number:pb]",
-						`${levelup_details.pb_current}/${levelup_details.pb_cost}`,
-					],
-				},
-			},
-			Stats: {
-				header: `Stats (${levelup_details.points})`,
-				columns: stat_cols,
-				data: stat_rows,
-			},
-		};
 		const stat_data = {
 			Classes: {
 				columns: ["Class", "Level", ""],
@@ -249,6 +209,73 @@ export class componentCreature extends rpgBaseExtendedComponent {
 				},
 			},
 		};
+
+		const info_data = {
+			Information: {
+				columns: ["Field", "Value", ""],
+				data: {
+					Nickname: ["INPUT[text:nickname]", type_selector],
+					Image: [
+						`INPUT[imageSuggester(optionQuery("${rpgUtils.getAppImagesPathPrefix()}")):image]`,
+						clan_selector,
+					],
+					TotalXP: ["INPUT[number:xp]"],
+				},
+			},
+			Attributes: {
+				header: `Attributes`,
+				columns: stat_cols,
+				data: stat_rows,
+			},
+			Abilities: {
+				header: `Abilities`,
+				columns: stat_cols,
+				data: stat_rows,
+			},
+			Classes: {
+				header: `Classes`,
+				columns: stat_cols,
+				data: stat_rows,
+			},
+		};
+
+		stat_cols.push(
+			...[
+				"Stat",
+				"Multiplier X",
+				"Auto Upgrade",
+				"Spent Points",
+				"Final Value",
+			]
+		);
+		let stat_rows = this.get_stat_rows();
+		stat_rows["Sum"] = this.get_stat_sum_row();
+
+		// const info_data = {
+		// 	Information: {
+		// 		columns: ["Field", "Value", ""],
+		// 		data: {
+		// 			Nickname: ["INPUT[text:nickname]", type_selector],
+		// 			Image: [
+		// 				`INPUT[imageSuggester(optionQuery("${rpgUtils.getAppPathPrefix()}Images")):image]`,
+		// 				clan_selector,
+		// 			],
+		// 			Level: [
+		// 				"INPUT[number:level]",
+		// 				`Points: ${levelup_details.points}`,
+		// 			],
+		// 			Pureblood: [
+		// 				"INPUT[number:pb]",
+		// 				`${levelup_details.pb_current}/${levelup_details.pb_cost}`,
+		// 			],
+		// 		},
+		// 	},
+		// 	Stats: {
+		// 		header: `Stats (${levelup_details.points})`,
+		// 		columns: stat_cols,
+		// 		data: stat_rows,
+		// 	},
+		// };
 
 		for (const header in info_data) {
 			await rpgFieldMaker.render_statblock(

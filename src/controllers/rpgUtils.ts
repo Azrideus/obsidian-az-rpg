@@ -15,6 +15,9 @@ export class rpgUtils {
 	static getAppPathPrefix(): string {
 		return "DND/DnD - Red Mask/";
 	}
+	static getAppImagesPathPrefix(): string {
+		return `${rpgUtils.getAppPathPrefix()}1.1 - Images`;
+	}
 	static getFileFromPath(app: App, path: string): TFile | null {
 		if (path.startsWith("[")) {
 			/**

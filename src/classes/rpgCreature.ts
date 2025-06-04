@@ -2,17 +2,8 @@ import { rpgUtils } from "src/controllers/rpgUtils";
 import { rpgBaseClass as rpgBaseClass } from "./base/rpgBaseClass";
 import { rpgItem } from "./rpgItem";
 
-type StatKey = "str" | "agi" | "vit" | "int" | "wis" | "cha" | "mem";
-type StatList = {
-	str: number;
-	agi: number;
-	vit: number;
-	int: number;
-	wis: number;
-	cha: number;
-	mem: number;
-};
-
+type StatObject = { [key: string]: { [key: string]: number } };
+type StatArray = { [key: string]: string[] };
 /**
  * Base class for all creatures
  */
@@ -47,160 +38,117 @@ export class rpgCreature extends rpgBaseClass {
 		return Object.values(unique_items);
 	}
 
-	get_stat_keys(): StatKey[] {
-		return ["str", "agi", "vit", "int", "wis", "cha", "mem"];
+	get_attribute_keys(): StatArray {
+		return {
+			physical: ["str", "agi", "vit"],
+			mental: ["int", "wis", "mem"],
+			social: ["cha", "man"],
+		};
+	}
+	get_abilitiy_keys(): StatArray {
+		return {
+			talents: [
+				"awareness",
+				"brawl",
+				"",
+				"",
+				"athletics",
+				"",
+				"Intimidation",
+				"Leadership",
+				"Deception",
+			],
+			skills: [
+				"Melee",
+				"Firearms",
+				"",
+				"Etiquette",
+				"Driving",
+				"",
+				"Crafting",
+				"Animals",
+				"Survival",
+			],
+			knowledges: [
+				"Academics",
+				"Technology",
+				"",
+				"Investigation",
+				"",
+				"",
+				"Medical",
+				"Occult",
+				"Politics",
+			],
+		};
+	}
+	get_stat_keys(): StatArray {
+		return {
+			...this.get_attribute_keys(),
+			...this.get_abilitiy_keys(),
+		};
 	}
 	/**
 	 * Get the main stats of the creature
 	 * will use AutoStats if possible
 	 */
-	get_stats(use_auto = true): StatList {
-		if (true === use_auto) {
-			/**
-			 * get the stats of the creature by automatically calculating them
-			 */
-			const stat_keys = this.get_stat_keys();
-			const auto_stat_keys = stat_keys.filter((r) => {
-				return this.getNum("auto_" + r) > 0;
-			});
-
-			const total_points = this.get_level_up_details().points;
-			const used_points = this.get_stat_totals(false).spent;
-			let remaining_points = total_points - used_points;
-			const result_stats = this.get_stats(false);
-
-			if (auto_stat_keys.length > 0) {
-				/**
-				 * while we have points to assign,loop over the stats and assign them one by one
-				 */
-				while (remaining_points > 0) {
-					for (const stat of auto_stat_keys) {
-						const auto = this.getNum(`auto_${stat}`);
-						const STAT_MOD = this.getNum(`mod_${stat}`, 1);
-
-						const allocation_max = Math.min(auto, remaining_points);
-						result_stats[stat] += STAT_MOD * allocation_max;
-						remaining_points -= allocation_max;
-						if (remaining_points <= 0) break;
-					}
-				}
+	get_stats(): StatObject {
+		const all_stats = this.get_stat_keys();
+		const result: StatObject = {};
+		for (const category in all_stats) {
+			result[category] = {};
+			for (const key in all_stats[category]) {
+				result[category][key] = this.getNum(key);
 			}
-
-			return result_stats;
-		} else {
-			return {
-				str: this.getNum("str") || 0,
-				agi: this.getNum("agi") || this.getNum("dex") || 0,
-				vit: this.getNum("vit") || this.getNum("con") || 0,
-				int: this.getNum("int") || 0,
-				wis: this.getNum("wis") || 0,
-				cha: this.getNum("cha") || 0,
-				mem: this.getNum("mem") || 0,
-			};
 		}
+		return result;
+
+		// if (true === use_auto) {
+		// 	/**
+		// 	 * get the stats of the creature by automatically calculating them
+		// 	 */
+		// 	const stat_keys = this.get_attribute_keys();
+		// 	const auto_stat_keys = stat_keys.filter((r) => {
+		// 		return this.getNum("auto_" + r) > 0;
+		// 	});bad
+
+		// 	const total_points = this.get_level_up_details().points;
+		// 	const used_points = this.get_stat_totals(false).spent;
+		// 	let remaining_points = total_points - used_points;
+		// 	const result_stats = this.get_stats(false);
+
+		// 	if (auto_stat_keys.length > 0) {
+		// 		/**
+		// 		 * while we have points to assign,loop over the stats and assign them one by one
+		// 		 */
+		// 		while (remaining_points > 0) {
+		// 			for (const stat of auto_stat_keys) {
+		// 				const auto = this.getNum(`auto_${stat}`);
+		// 				const STAT_MOD = this.getNum(`mod_${stat}`, 1);
+
+		// 				const allocation_max = Math.min(auto, remaining_points);
+		// 				result_stats[stat] += STAT_MOD * allocation_max;
+		// 				remaining_points -= allocation_max;
+		// 				if (remaining_points <= 0) break;
+		// 			}
+		// 		}
+		// 	}
+
+		// 	return result_stats;
+		// } else {
+
+		// }
 	}
 
 	get_details() {
-		const levelup_details = this.get_level_up_details();
-		const stats = this.get_stats(true);
+		const stats = this.get_stats();
 		return {
 			level: this.getNum("level"),
 			...stats,
-			power: levelup_details.points,
-			hp: stats.vit * 5 + 30,
-			blood: stats.vit * 50 + stats.int * 100,
-			ap:
-				3 +
-				Math.floor(stats.str / 10) +
-				Math.floor(stats.int / 10) +
-				Math.floor(stats.wis / 10) +
-				Math.floor(stats.agi / 5),
-			speed: 3 + Math.floor(stats.agi / 10),
 		};
 	}
 
 	is_player() {
 		return this.getStr_lc("type") == "player";
-	}
-
-	/* -------------------------------------------------------------------------- */
-	/*                                    UTILS                                   */
-	/* -------------------------------------------------------------------------- */
-
-	/**
-	 * get total points spent in stat category
-	 * TODO totals based on Multiplier?
-	 */
-	get_stat_totals(use_auto = true) {
-		const stat_keys = this.get_stat_keys();
-		const stat_totals = { mod: 0, spent: 0, auto_upgrade: 0, final: 0 };
-		for (const stat of stat_keys) {
-			const sum_keys = [`mod_${stat}`, stat, `auto_${stat}`]; //Read Value from fields filled by user
-
-			const mod = this.getNum(sum_keys[0]);
-			const spent = this.getNum(sum_keys[1]);
-			const auto_upgrade = this.getNum(sum_keys[2]);
-
-			stat_totals["mod"] += mod;
-			stat_totals["spent"] += spent;
-			stat_totals["auto_upgrade"] += auto_upgrade;
-			stat_totals["final"] += mod * spent;
-		}
-
-		// if (use_auto) {
-		// 	const stats = this.get_stats();
-		// 	for (const s in stats) {
-		// 		stat_totals["final"] += stats[s as StatKey];
-		// 	}
-		// }
-
-		return stat_totals;
-	}
-
-	/**
-	 * 1-5 = 3
-	 * 6-10 = 4
-	 * 11-15 = 5
-	 * @param level
-	 * @returns
-	 */
-	get_level_tier(level: number) {
-		let level_tier = 3;
-		if (level >= 6) level_tier++;
-		if (level >= 11) level_tier++;
-		if (level >= 16) level_tier++;
-		return level_tier;
-	}
-	get_level_up_details() {
-		/**
-		 * 1-5 =   Level*30   +3 point per level
-		 * 6-10 =  Level*40   +4 point per level
-		 * 11-15 = Level*50   +5 point per level
-		 */
-		const level = this.getNum("level");
-
-		let points = 0;
-		for (let i = 0; i <= level; i++) {
-			const level_points = this.get_level_tier(i);
-			points += level_points;
-			// console.log("give points for level", i, level_points);
-		}
-
-		const next_level = level + 1;
-		const pb_cost = next_level * this.get_level_tier(next_level) * 10;
-
-		// console.log(
-		// 	`Level: ${level}
-		//  		Next Level: ${next_level}
-		//  		Next Tier: ${this.get_level_tier(next_level)}
-		//  		points: ${points}
-		//  		PB Cost: ${pb_cost}`
-		// );
-		return {
-			points: points,
-			pb_cost: pb_cost,
-			pb_current: this.getNum("pb"),
-			progress: Math.round((this.getNum("pb") / pb_cost) * 100),
-		};
 	}
 }
