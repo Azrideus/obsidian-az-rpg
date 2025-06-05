@@ -20,4 +20,8 @@ export class rpgBaseExtendedComponent extends Component {
 	get fn(): string {
 		return this.app.workspace.getActiveFile()?.basename || "";
 	}
+	make_input(type: string, name: string, addSquigles = false): string {
+		if (addSquigles) return `~~~meta-bind\nINPUT[${type}:${name}]\n~~~`;
+		return `INPUT[${type}:${name}]`;
+	}
 }

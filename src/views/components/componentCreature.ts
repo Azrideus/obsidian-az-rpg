@@ -1,7 +1,13 @@
 import { App } from "obsidian";
 import { rpgBaseExtendedComponent } from "../base/rpgBaseExtendedComponent";
 import { rpgFieldMaker } from "src/controllers/rpgFieldMaker";
-import { rpgCreature } from "src/classes/rpgCreature";
+import {
+	CLASS_CATEGORIES,
+	rpgCreature,
+	STAT_KEYS,
+	StatCategoryType,
+	StatKeyType,
+} from "src/classes/rpgCreature";
 import { rpgUtils } from "src/controllers/rpgUtils";
 import { rpgItem } from "src/classes/rpgItem";
 import { componentRepairTable } from "./componentRepairTable";
@@ -18,31 +24,45 @@ export class componentCreature extends rpgBaseExtendedComponent {
 	get_stat_column_name(stat: string) {
 		return [`mod_${stat}`, `auto_${stat}`, `${stat}`];
 	}
-	get_stat_rows() {
-		const stat_rows: any = {};
-		const stats = this.creature.get_stats(true);
-		const stat_keys = this.creature.get_attribute_keys();
-		stat_keys.map((s) => {
-			const fns = this.get_stat_column_name(s);
-			const row = fns.map((r) => `INPUT[number(placeholder(${r})):${r}]`);
-			stat_rows[s] = row;
-		});
-		return stat_rows;
+	get_stat_cols(stat_category_array: StatCategoryType[]) {
+		return stat_category_array.flatMap((s) => [s, s]);
 	}
-	get_stat_sum_row() {
-		const stat_totals = this.creature.get_stat_totals();
-		const levelup_details = this.creature.get_level_up_details();
-		const sum_row = [
-			stat_totals["mod"],
-			stat_totals["auto_upgrade"],
-			stat_totals["spent"] + "/" + levelup_details.points,
-			stat_totals["final"] + "/" + levelup_details.points,
-		];
+	/**
+	 * Create rows from the stat categories
+	 */
+	get_stat_rows(stat_category_array: StatCategoryType[]) {
+		const category_items = stat_category_array.map(
+			(category) => STAT_KEYS[category]
+		);
+		const needed_row_count = Math.max(
+			...category_items.map((c) => Object.keys(c).length)
+		);
 
-		return sum_row.map((r) => `<center><b>${r}</b></center>`);
+		const rows = [];
+		for (let index = 0; index < needed_row_count; index++) {
+			rows.push(
+				stat_category_array
+					.map((category) => {
+						const category_items = STAT_KEYS[category];
+						const current_selected_item =
+							index < category_items.length
+								? category_items[index]
+								: "";
+						if (!current_selected_item) return ["", ""];
+						return [
+							current_selected_item,
+							this.make_input("number", current_selected_item),
+						];
+					})
+					.flat()
+			);
+		}
+		return rows;
 	}
+
 	async onload() {
 		await this.view_stat_block();
+		await this.info_area();
 		await this.stat_area();
 		/* -------------------------------------------------------------------------- */
 		/*                                    Items                                   */
@@ -90,52 +110,6 @@ export class componentCreature extends rpgBaseExtendedComponent {
 			this.creature.get_items()
 		);
 		this.item_repair_table.onload();
-		/* -------------------------------------------------------------------------- */
-		/*                                Proficencies                                */
-		/* -------------------------------------------------------------------------- */
-		const prof_data = {
-			Proficencies: {
-				columns: ["Proficencies", "Level", ""],
-				data: {
-					// Strength
-					Athletics: "INPUT[number:Athletics]",
-
-					// Dexterity
-					Acrobatics: "INPUT[number:Acrobatics]",
-					Sleight_Of_Hand: "INPUT[number:Sleight_Of_Hand]",
-					Stealth: "INPUT[number:Stealth]",
-
-					// Intelligence
-					Arcana: "INPUT[number:Arcana]",
-					History: "INPUT[number:History]",
-					Investigation: "INPUT[number:Investigation]",
-					Nature: "INPUT[number:Nature]",
-					Religion: "INPUT[number:Religion]",
-
-					// Wisdom
-					Animals: "INPUT[number:Animals]",
-					Insight: "INPUT[number:Insight]",
-					Medicine: "INPUT[number:Medicine]",
-					Perception: "INPUT[number:Perception]",
-					Survival: "INPUT[number:Survival]",
-					Driving: "INPUT[number:Driving]",
-					Guns: "INPUT[number:Guns]",
-
-					// Charisma
-					Deception: "INPUT[number:Deception]",
-					Intimidation: "INPUT[number:Intimidation]",
-					Performance: "INPUT[number:Performance]",
-					Persuasion: "INPUT[number:Persuasion]",
-				},
-			},
-		};
-		for (const s in prof_data) {
-			await rpgFieldMaker.render_statblock(
-				this,
-				s,
-				(prof_data as any)[s]
-			);
-		}
 
 		rpgUtils.hookMarkdownLinkMouseEventHandlers(
 			this.app,
@@ -149,44 +123,28 @@ export class componentCreature extends rpgBaseExtendedComponent {
 		/* -------------------------------------------------------------------------- */
 		/*                                  StatBlock                                 */
 		/* -------------------------------------------------------------------------- */
-		const details = this.creature.get_details();
-		const stats = Object.values(this.creature.get_stats()).map(
-			(r) =>
-				/**
-				 * DND 5e Stats start at 10
-				 */
-				//Number(r) + 10
-				r
-		);
-		const key_details = [
-			details.level,
-			details.hp,
-			details.blood,
-			details.speed,
-			details.ap,
-			details.power,
-		];
-
-		const data = {
-			layout: "Vampire",
-			...details,
-			key_details: Object.values(key_details),
-			image: this.creature.get("image"),
-			name: this.fn,
-			stats: stats,
-		};
-		let data_str = "";
-		for (const key in data) {
-			let value_str = (data as any)[key];
-			if (Array.isArray(value_str)) {
-				value_str = "[" + "" + value_str.join(", ") + "]";
-			} else value_str = String(value_str);
-
-			data_str += `${key}: ${value_str}\n`;
-		}
-		await rpgFieldMaker.markdown(this, `~~~statblock\n${data_str}\n~~~`);
+		// const details = this.creature.get_details();
+		// const key_details = [details.hp, details.blood, details.mana];
+		// const data = {
+		// 	layout: "Vampire",
+		// 	...details,
+		// 	key_details: Object.values(key_details),
+		// 	image: this.creature.get("image"),
+		// 	name: this.fn,
+		// 	stats: stats,
+		// };
+		// let data_str = "";
+		// for (const key in data) {
+		// 	let value_str = (data as any)[key];
+		// 	if (Array.isArray(value_str)) {
+		// 		value_str = "[" + "" + value_str.join(", ") + "]";
+		// 	} else value_str = String(value_str);
+		// 	data_str += `${key}: ${value_str}\n`;
+		// }
+		// await rpgFieldMaker.markdown(this, `~~~statblock\n${data_str}\n~~~`);
 	}
-	async stat_area() {
+
+	async info_area() {
 		const type_selector = `INPUT[inlineSelect(
 						option(npc, NPC),
 						option(player, Player)
@@ -196,19 +154,6 @@ export class componentCreature extends rpgBaseExtendedComponent {
 						option(#x, X)
 					):clan]`;
 		const is_player = this.creature.is_player();
-		const stat_data = {
-			Classes: {
-				columns: ["Class", "Level", ""],
-				data: {
-					Enhancer: "INPUT[number:Enhancer]",
-					Emission: "INPUT[number:Emission]",
-					Transmutation: "INPUT[number:Transmutation]",
-					Manipulator: "INPUT[number:Manipulator]",
-					Conjuration: "INPUT[number:Conjuration]",
-					Special: "INPUT[number:Special]",
-				},
-			},
-		};
 
 		const info_data = {
 			Information: {
@@ -219,64 +164,10 @@ export class componentCreature extends rpgBaseExtendedComponent {
 						`INPUT[imageSuggester(optionQuery("${rpgUtils.getAppImagesPathPrefix()}")):image]`,
 						clan_selector,
 					],
-					TotalXP: ["INPUT[number:xp]"],
+					Experience: ["INPUT[number:xp]"],
 				},
 			},
-			Attributes: {
-				header: `Attributes`,
-				columns: stat_cols,
-				data: stat_rows,
-			},
-			Abilities: {
-				header: `Abilities`,
-				columns: stat_cols,
-				data: stat_rows,
-			},
-			Classes: {
-				header: `Classes`,
-				columns: stat_cols,
-				data: stat_rows,
-			},
 		};
-
-		stat_cols.push(
-			...[
-				"Stat",
-				"Multiplier X",
-				"Auto Upgrade",
-				"Spent Points",
-				"Final Value",
-			]
-		);
-		let stat_rows = this.get_stat_rows();
-		stat_rows["Sum"] = this.get_stat_sum_row();
-
-		// const info_data = {
-		// 	Information: {
-		// 		columns: ["Field", "Value", ""],
-		// 		data: {
-		// 			Nickname: ["INPUT[text:nickname]", type_selector],
-		// 			Image: [
-		// 				`INPUT[imageSuggester(optionQuery("${rpgUtils.getAppPathPrefix()}Images")):image]`,
-		// 				clan_selector,
-		// 			],
-		// 			Level: [
-		// 				"INPUT[number:level]",
-		// 				`Points: ${levelup_details.points}`,
-		// 			],
-		// 			Pureblood: [
-		// 				"INPUT[number:pb]",
-		// 				`${levelup_details.pb_current}/${levelup_details.pb_cost}`,
-		// 			],
-		// 		},
-		// 	},
-		// 	Stats: {
-		// 		header: `Stats (${levelup_details.points})`,
-		// 		columns: stat_cols,
-		// 		data: stat_rows,
-		// 	},
-		// };
-
 		for (const header in info_data) {
 			await rpgFieldMaker.render_statblock(
 				this,
@@ -284,9 +175,61 @@ export class componentCreature extends rpgBaseExtendedComponent {
 				(info_data as any)[header]
 			);
 		}
-		/* ---------------------------- level up progress --------------------------- */
+	}
 
-		for (const header in stat_data) {
+	async stat_area() {
+		const stat_key_names = Object.keys(STAT_KEYS);
+		const info_data = {
+			Attributes: {
+				header: `Attributes`,
+				columns: this.get_stat_cols([
+					stat_key_names[0] as any,
+					stat_key_names[1] as any,
+					stat_key_names[2] as any,
+				]),
+				data: this.get_stat_rows([
+					stat_key_names[0] as any,
+					stat_key_names[1] as any,
+					stat_key_names[2] as any,
+				]),
+			},
+			Abilities: {
+				header: `Abilities`,
+				columns: this.get_stat_cols([
+					stat_key_names[3] as any,
+					stat_key_names[4] as any,
+					stat_key_names[5] as any,
+				]),
+				data: this.get_stat_rows([
+					stat_key_names[3] as any,
+					stat_key_names[4] as any,
+					stat_key_names[5] as any,
+				]),
+			},
+			Classes: {
+				columns: ["Class", "Level", ""],
+				data: CLASS_CATEGORIES.reduce((prev, curr) => {
+					return {
+						...prev,
+						[String(curr)]: this.make_input("number", `${curr}`),
+					};
+				}, {}),
+			},
+			Advantages: {
+				header: "Advantages And Flaws",
+				columns: ["Advantage/Flaw", "Key", "Value"],
+				class: "advantage-table",
+				data: [0, 1, 2, 3, 4, 5, 6].map((i) => {
+					return [
+						this.make_input("text", `adv_${i}`),
+						this.make_input("text", `adv_key_${i}`),
+						this.make_input("number", `adv_value_${i}`),
+					];
+				}),
+			},
+		};
+
+		for (const header in info_data) {
 			await rpgFieldMaker.render_statblock(
 				this,
 				header,

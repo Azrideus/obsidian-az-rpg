@@ -32,14 +32,26 @@ export class rpgFieldMaker {
 		const data = stat_data.data;
 
 		for (const key in data) {
-			let row_values = Array.isArray(data[key]) ? data[key] : [data[key]];
+			const is_array = Array.isArray(data[key]);
+			let row_values = is_array ? data[key] : [data[key]];
+
 			row_values = row_values.map((v: any) =>
 				String(v).includes("INPUT") ? `\`${v}\`` : v
 			);
 			while (row_values.length < columns.length - 1) row_values.push("");
-			rows.push([key, ...row_values]);
+
+			if (is_array) {
+				rows.push(row_values);
+			} else {
+				rows.push([key, ...row_values]);
+			}
 		}
-		const table_wrapper = cmp.containerEl.createEl("div");
+		const table_wrapper = cmp.containerEl.createEl("div", {
+			attr: {
+				class:
+					stat_data.className || stat_data.class || "statblock-table",
+			},
+		});
 		await cmp.dv.table(columns, rows, table_wrapper, cmp, cmp.fp);
 		return 1;
 	}

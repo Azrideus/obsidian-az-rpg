@@ -2,8 +2,77 @@ import { rpgUtils } from "src/controllers/rpgUtils";
 import { rpgBaseClass as rpgBaseClass } from "./base/rpgBaseClass";
 import { rpgItem } from "./rpgItem";
 
-type StatObject = { [key: string]: { [key: string]: number } };
-type StatArray = { [key: string]: string[] };
+export const CLASS_CATEGORIES = [
+	"enhancer",
+	"emission",
+	"transmutation",
+	"manipulator",
+	"conjuration",
+	"special",
+] as const;
+export const STAT_CATEGORIES = [
+	"physical",
+	"social",
+	"mental",
+	"talents",
+	"skills",
+	"knowledges",
+] as const;
+export const STAT_KEYS = {
+	physical: ["strength", "agility", "vitality"],
+	social: ["charisma", "manipulation"],
+	mental: ["intelligence", "wisdom", "memory"],
+	talents: [
+		"awareness",
+		"brawl",
+		"",
+		"",
+		"athletics",
+		"",
+		"intimidation",
+		"leadership",
+		"deception",
+	],
+	skills: [
+		"melee",
+		"firearms",
+		"",
+		"etiquette",
+		"driving",
+		"",
+		"crafting",
+		"animals",
+		"survival",
+	],
+	knowledges: [
+		"academics",
+		"technology",
+		"",
+		"investigation",
+		"",
+		"",
+		"medical",
+		"occult",
+		"law",
+	],
+} as const;
+export type StatCategoryType = (typeof STAT_CATEGORIES)[number];
+export type StatKeyType = (typeof STAT_KEYS)[StatCategoryType][number];
+
+type RawStatObject = {
+	[key in StatKeyType]: number;
+};
+type CategorizedStatObject = {
+	[key in StatCategoryType]: RawStatObject;
+};
+type StatObject = RawStatObject & CategorizedStatObject;
+type StatArray = { [key in StatCategoryType]: StatKeyType[] };
+type DetailsObjectType = {
+	hp: number;
+	mana: number;
+	blood: number;
+} & StatObject;
+
 /**
  * Base class for all creatures
  */
@@ -38,112 +107,38 @@ export class rpgCreature extends rpgBaseClass {
 		return Object.values(unique_items);
 	}
 
-	get_attribute_keys(): StatArray {
-		return {
-			physical: ["str", "agi", "vit"],
-			mental: ["int", "wis", "mem"],
-			social: ["cha", "man"],
-		};
-	}
-	get_abilitiy_keys(): StatArray {
-		return {
-			talents: [
-				"awareness",
-				"brawl",
-				"",
-				"",
-				"athletics",
-				"",
-				"Intimidation",
-				"Leadership",
-				"Deception",
-			],
-			skills: [
-				"Melee",
-				"Firearms",
-				"",
-				"Etiquette",
-				"Driving",
-				"",
-				"Crafting",
-				"Animals",
-				"Survival",
-			],
-			knowledges: [
-				"Academics",
-				"Technology",
-				"",
-				"Investigation",
-				"",
-				"",
-				"Medical",
-				"Occult",
-				"Politics",
-			],
-		};
-	}
-	get_stat_keys(): StatArray {
-		return {
-			...this.get_attribute_keys(),
-			...this.get_abilitiy_keys(),
-		};
-	}
 	/**
 	 * Get the main stats of the creature
 	 * will use AutoStats if possible
 	 */
-	get_stats(): StatObject {
-		const all_stats = this.get_stat_keys();
-		const result: StatObject = {};
-		for (const category in all_stats) {
-			result[category] = {};
-			for (const key in all_stats[category]) {
-				result[category][key] = this.getNum(key);
+	get_stats(add_bonus_and_flaw = false): StatObject {
+		const result: StatObject = {} as any;
+
+		for (const category in STAT_KEYS) {
+			const cat = category as StatCategoryType;
+			result[cat] = {} as any;
+			for (const stat_key in STAT_KEYS[cat]) {
+				const key = stat_key as StatKeyType;
+
+				let stat_value = this.getNum(key, 0);
+				if (add_bonus_and_flaw) {
+					const stat_advantage = this.getNum("bonus_" + key, 0);
+					const stat_flaw = this.getNum("flaw_" + key, 0);
+					stat_value += stat_advantage - stat_flaw;
+				}
+				result[cat][key] = stat_value;
+				result[key] = stat_value;
 			}
 		}
 		return result;
-
-		// if (true === use_auto) {
-		// 	/**
-		// 	 * get the stats of the creature by automatically calculating them
-		// 	 */
-		// 	const stat_keys = this.get_attribute_keys();
-		// 	const auto_stat_keys = stat_keys.filter((r) => {
-		// 		return this.getNum("auto_" + r) > 0;
-		// 	});bad
-
-		// 	const total_points = this.get_level_up_details().points;
-		// 	const used_points = this.get_stat_totals(false).spent;
-		// 	let remaining_points = total_points - used_points;
-		// 	const result_stats = this.get_stats(false);
-
-		// 	if (auto_stat_keys.length > 0) {
-		// 		/**
-		// 		 * while we have points to assign,loop over the stats and assign them one by one
-		// 		 */
-		// 		while (remaining_points > 0) {
-		// 			for (const stat of auto_stat_keys) {
-		// 				const auto = this.getNum(`auto_${stat}`);
-		// 				const STAT_MOD = this.getNum(`mod_${stat}`, 1);
-
-		// 				const allocation_max = Math.min(auto, remaining_points);
-		// 				result_stats[stat] += STAT_MOD * allocation_max;
-		// 				remaining_points -= allocation_max;
-		// 				if (remaining_points <= 0) break;
-		// 			}
-		// 		}
-		// 	}
-
-		// 	return result_stats;
-		// } else {
-
-		// }
 	}
 
-	get_details() {
+	get_details(): DetailsObjectType {
 		const stats = this.get_stats();
 		return {
-			level: this.getNum("level"),
+			hp: 3 + stats.vit,
+			mana: 2 * stats.int,
+			blood: 2 * stats.int + stats.vit,
 			...stats,
 		};
 	}

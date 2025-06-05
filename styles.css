@@ -34,3 +34,14 @@ table.dataview.table-view-table td > span > center {
 	max-width: 100%;
 	width: 100%;
 }
+table.dataview.table-view-table tbody code {
+	max-width: 100%;
+	width: 100%;
+}
+
+.advantage-table table thead th:first-child {
+	width: 65%;
+}
+.advantage-table table thead th:last-child {
+	width: 80px;
+}
