@@ -5,21 +5,24 @@ import { rpgCreature } from "src/classes/rpgCreature";
 import { rpgUtils } from "src/controllers/rpgUtils";
 import { rpgItem } from "src/classes/rpgItem";
 import { componentRepairTable } from "./componentRepairTable";
+import az_rpg from "main";
 
 export const VIEW_TYPE_STAT = "rpg_view";
 
 export class componentItem extends rpgBaseExtendedComponent {
 	readonly item: rpgItem;
 	readonly big_view: boolean;
+
 	constructor(
 		app: App,
+		plugin: az_rpg,
 		container: HTMLElement,
 		item: rpgItem,
 		big_view = true
 	) {
-		super(app, container);
-		this.item = item;
+		super(app, plugin, container);
 		this.big_view = big_view;
+		this.item = item;
 	}
 
 	async onload() {

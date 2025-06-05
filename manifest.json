@@ -5,7 +5,5 @@
 	"minAppVersion": "0.15.0",
 	"description": "Handy dnd/rpg tools for Obsidian",
 	"author": "Azrideus",
-	"authorUrl": "https://obsidian.md",
-	"fundingUrl": "https://obsidian.md/pricing",
 	"isDesktopOnly": false
 }

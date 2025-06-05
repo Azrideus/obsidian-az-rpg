@@ -11,16 +11,24 @@ import {
 import { rpgUtils } from "src/controllers/rpgUtils";
 import { rpgItem } from "src/classes/rpgItem";
 import { componentRepairTable } from "./componentRepairTable";
+import az_rpg from "main";
 
 export const VIEW_TYPE_STAT = "rpg_view";
 
 export class componentCreature extends rpgBaseExtendedComponent {
 	readonly creature: rpgCreature;
 	item_repair_table: componentRepairTable;
-	constructor(app: App, container: HTMLElement, creature: rpgCreature) {
-		super(app, container);
+
+	constructor(
+		app: App,
+		plugin: az_rpg,
+		container: HTMLElement,
+		creature: rpgCreature
+	) {
+		super(app, plugin, container);
 		this.creature = creature;
 	}
+
 	get_stat_column_name(stat: string) {
 		return [`mod_${stat}`, `auto_${stat}`, `${stat}`];
 	}
@@ -157,7 +165,7 @@ export class componentCreature extends rpgBaseExtendedComponent {
 
 		const info_data = {
 			Information: {
-				columns: ["Field", "Value", ""],
+				columns: ["Field", "Value"],
 				data: {
 					Nickname: ["INPUT[text:nickname]", type_selector],
 					Image: [
@@ -221,9 +229,9 @@ export class componentCreature extends rpgBaseExtendedComponent {
 				class: "advantage-table",
 				data: [0, 1, 2, 3, 4, 5, 6].map((i) => {
 					return [
-						this.make_input("text", `adv_${i}`),
-						this.make_input("text", `adv_key_${i}`),
-						this.make_input("number", `adv_value_${i}`),
+						this.make_input("text", `bonus_${i}`),
+						this.make_input("text", `bonus_key_${i}`),
+						this.make_input("number", `bonus_value_${i}`),
 					];
 				}),
 			},

@@ -2,6 +2,7 @@ import { rpgUtils } from "src/controllers/rpgUtils";
 import { rpgBaseClass as rpgBaseClass } from "./base/rpgBaseClass";
 import { rpgItem } from "./rpgItem";
 
+const MAX_BONUS_COUNT = 5;
 export const CLASS_CATEGORIES = [
 	"enhancer",
 	"emission",
@@ -122,23 +123,33 @@ export class rpgCreature extends rpgBaseClass {
 
 				let stat_value = this.getNum(key, 0);
 				if (add_bonus_and_flaw) {
-					const stat_advantage = this.getNum("bonus_" + key, 0);
-					const stat_flaw = this.getNum("flaw_" + key, 0);
-					stat_value += stat_advantage - stat_flaw;
+					const stat_bonus = this.get_bonus_of(key);
+					stat_value += stat_bonus;
 				}
+
 				result[cat][key] = stat_value;
 				result[key] = stat_value;
 			}
 		}
 		return result;
 	}
+	get_bonus_of(stat_key: StatKeyType): number {
+		for (let i = 0; i < MAX_BONUS_COUNT; i++) {
+			const bonus_key = this.get(`bonus_key_${i}`);
+			const bonus_value = this.getNum(`bonus_value_${i}`, 0);
+			if (bonus_key == stat_key) {
+				return bonus_value;
+			}
+		}
+		return 0;
+	}
 
 	get_details(): DetailsObjectType {
 		const stats = this.get_stats();
 		return {
-			hp: 3 + stats.vit,
-			mana: 2 * stats.int,
-			blood: 2 * stats.int + stats.vit,
+			hp: 2 + stats.vitality,
+			mana: 2 * stats.intelligence,
+			blood: 2 * stats.intelligence + stats.vitality,
 			...stats,
 		};
 	}

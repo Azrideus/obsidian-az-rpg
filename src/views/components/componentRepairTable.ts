@@ -4,13 +4,20 @@ import { rpgFieldMaker } from "src/controllers/rpgFieldMaker";
 import { rpgCreature } from "src/classes/rpgCreature";
 import { rpgUtils } from "src/controllers/rpgUtils";
 import { rpgItem } from "src/classes/rpgItem";
+import az_rpg from "main";
 
 export const VIEW_TYPE_STAT = "rpg_view";
 
 export class componentRepairTable extends rpgBaseExtendedComponent {
 	readonly items: rpgItem[];
-	constructor(app: App, container: HTMLElement, items: rpgItem[]) {
-		super(app, container);
+
+	constructor(
+		app: App,
+		plugin: az_rpg,
+		container: HTMLElement,
+		items: rpgItem[]
+	) {
+		super(app, plugin, container);
 		this.items = items;
 	}
 

@@ -6,14 +6,15 @@ import {
 	WorkspaceLeaf,
 } from "obsidian";
 
-import { azrpg_view_base } from "./base/azrpg_view_base";
-import { rpgUtils, RPG_FileType } from "../controllers/rpgUtils";
-import { rpgCreature } from "../classes/rpgCreature";
-import { componentCreature } from "./components/componentCreature";
+import { azrpg_view_base } from "./azrpg_view_base";
+import { rpgUtils, RPG_FileType } from "../../controllers/rpgUtils";
+import { rpgCreature } from "../../classes/rpgCreature";
 import { rpgItem } from "src/classes/rpgItem";
-import { componentItem } from "./components/componentItem";
+import { componentItem } from "../components/componentItem";
 import { rpgBaseClass } from "src/classes/base/rpgBaseClass";
-import { rpgBaseExtendedComponent } from "./base/rpgBaseExtendedComponent";
+import { rpgBaseExtendedComponent } from "./rpgBaseExtendedComponent";
+import { componentCharSheet } from "../components/componentCharSheet";
+import az_rpg from "main";
 
 export const VIEW_TYPE_STAT = "rpg_view";
 
@@ -24,9 +25,6 @@ export const VIEW_TYPE_STAT = "rpg_view";
  * Item
  */
 export class azrpg_view_stat extends azrpg_view_base {
-	target_file: TFile;
-	target_file_type: RPG_FileType;
-
 	target_class: rpgBaseClass;
 	cmp: rpgBaseExtendedComponent;
 
@@ -34,8 +32,8 @@ export class azrpg_view_stat extends azrpg_view_base {
 	headerRow: HTMLElement;
 	contentContainer: HTMLElement;
 
-	constructor(leaf: WorkspaceLeaf) {
-		super(leaf);
+	constructor(plugin: az_rpg, leaf: WorkspaceLeaf) {
+		super(plugin, leaf);
 		this.registerEvent(
 			this.app.workspace.on("active-leaf-change", () => {
 				const active_file = rpgUtils.getActiveFile(this.app);
@@ -53,14 +51,9 @@ export class azrpg_view_stat extends azrpg_view_base {
 	getDisplayText(): string {
 		return "AZ-DND";
 	}
-	setTargetFile(target_file: TFile) {
-		if (this.target_file == target_file) return;
-		this.target_file = target_file;
-		this.target_file_type = rpgUtils.getFileRpgType(
-			this.app,
-			this.target_file
-		);
 
+	setTargetFile(target_file: TFile) {
+		super.setTargetFile(target_file);
 		this.preparePage();
 	}
 	preparePage() {
@@ -105,8 +98,9 @@ export class azrpg_view_stat extends azrpg_view_base {
 		switch (this.target_file_type) {
 			case "creature":
 				this.target_class = new rpgCreature(this.app, this.target_file);
-				this.cmp = new componentCreature(
+				this.cmp = new componentCharSheet(
 					this.app,
+					this.plugin,
 					this.contentContainer,
 					this.target_class as rpgCreature
 				);
@@ -115,6 +109,7 @@ export class azrpg_view_stat extends azrpg_view_base {
 				this.target_class = new rpgItem(this.app, this.target_file);
 				this.cmp = new componentItem(
 					this.app,
+					this.plugin,
 					this.contentContainer,
 					this.target_class as rpgItem
 				);
@@ -127,8 +122,4 @@ export class azrpg_view_stat extends azrpg_view_base {
 		}
 		if (this.cmp != null) this.cmp.load();
 	}
-
-	async onOpen() {}
-
-	async onClose() {}
 }

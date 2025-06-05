@@ -1,13 +1,16 @@
+import az_rpg from "main";
 import { App, Component, MarkdownRenderer } from "obsidian";
 import { getAPI } from "obsidian-dataview";
 import { DataviewApi } from "obsidian-dataview/lib/api/plugin-api";
 export class rpgBaseExtendedComponent extends Component {
 	readonly containerEl: HTMLElement;
 	readonly app: App;
+	readonly plugin: az_rpg;
 
-	constructor(app: App, container: HTMLElement) {
+	constructor(app: App, plugin: az_rpg, container: HTMLElement) {
 		super();
 		this.app = app;
+		this.plugin = plugin;
 		this.containerEl = container.createDiv();
 	}
 

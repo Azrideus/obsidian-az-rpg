@@ -9,7 +9,10 @@ import {
 	Setting,
 	WorkspaceLeaf,
 } from "obsidian";
-import { azrpg_view_stat, VIEW_TYPE_STAT } from "src/views/azrpg_view_stat";
+import {
+	azrpg_view_stat,
+	VIEW_TYPE_STAT,
+} from "src/views/base/azrpg_view_stat";
 
 // Remember to rename these classes and interfaces!
 
@@ -23,13 +26,18 @@ const DEFAULT_SETTINGS: MyPluginSettings = {
 
 export default class az_rpg extends Plugin {
 	settings: MyPluginSettings;
+	image_folder: string;
 	static ref: az_rpg;
 
 	async onload() {
 		await this.loadSettings();
+		await this.registerImages();
 		az_rpg.ref = this;
 
-		this.registerView(VIEW_TYPE_STAT, (leaf) => new azrpg_view_stat(leaf));
+		this.registerView(
+			VIEW_TYPE_STAT,
+			(leaf) => new azrpg_view_stat(this, leaf)
+		);
 
 		this.addRibbonIcon("dice", "Open Hello World View", () => {
 			this.activateView(VIEW_TYPE_STAT);
@@ -63,6 +71,12 @@ export default class az_rpg extends Plugin {
 
 	onunload() {}
 
+	async registerImages() {
+		this.image_folder = this.app.vault.adapter.getResourcePath(
+			`${this.manifest.dir}/src/images`
+		);
+		this.image_folder = this.image_folder.split("?")[0]; // Remove query params if any
+	}
 	async loadSettings() {
 		this.settings = Object.assign(
 			{},
