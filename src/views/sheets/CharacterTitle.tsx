@@ -1,40 +1,13 @@
 import { App } from "obsidian";
-
 import SheetBackground from "./SheetBackground";
 
 export default function CharacterTitle(props: { image_folder: string }) {
 	return (
-		<div
-			style={{
-				display: "flex",
-				flexDirection: "column",
-				alignItems: "center",
-				position: "absolute",
-				top: 0,
-				left: 0,
-				width: "100%",
-				height: "100%",
-				zIndex: 2,
-			}}
-		>
-			<h3
-				style={{
-					paddingTop: 18,
-					fontFamily: "Felipa",
-					fontSize: 55,
-					marginBottom: 2,
-					borderBottom: "2px solid rgba(255, 255, 255, 0.5)",
-				}}
-			>
+		<div className="flex flex-col items-center absolute top-0 left-0 w-full h-full z-20">
+			<h3 className="pt-[18px] font-felipa text-[55px] mb-[2px] border-red-300 border-8">
 				Issac Rizzark
 			</h3>
-			<h4
-				style={{
-					margin: 1,
-					fontFamily: "Felipa",
-					fontSize: 30,
-				}}
-			>
+			<h4 className="m-[1px] font-felipa text-[30px]">
 				The Great Scientist
 			</h4>
 		</div>

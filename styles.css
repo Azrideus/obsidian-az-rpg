@@ -1,1 +1,184 @@
-@import url("https://fonts.googleapis.com/css2?family=Felipa&family=Romanesco&display=swap");
+.static {
+  position: static;
+}
+
+.absolute {
+  position: absolute;
+}
+
+.relative {
+  position: relative;
+}
+
+.inset-0 {
+  inset: 0px;
+}
+
+.left-0 {
+  left: 0px;
+}
+
+.top-0 {
+  top: 0px;
+}
+
+.z-0 {
+  z-index: 0;
+}
+
+.z-20 {
+  z-index: 20;
+}
+
+.z-\[1\] {
+  z-index: 1;
+}
+
+.m-\[1px\] {
+  margin: 1px;
+}
+
+.mb-\[2px\] {
+  margin-bottom: 2px;
+}
+
+.flex {
+  display: flex;
+}
+
+.table {
+  display: table;
+}
+
+.h-\[297mm\] {
+  height: 297mm;
+}
+
+.h-full {
+  height: 100%;
+}
+
+.w-\[210mm\] {
+  width: 210mm;
+}
+
+.w-full {
+  width: 100%;
+}
+
+.flex-col {
+  flex-direction: column;
+}
+
+.items-center {
+  align-items: center;
+}
+
+.border-8 {
+  border-width: 8px;
+}
+
+.border-red-300 {
+  --tw-border-opacity: 1;
+  border-color: rgb(252 165 165 / var(--tw-border-opacity, 1));
+}
+
+.object-cover {
+  -o-object-fit: cover;
+     object-fit: cover;
+}
+
+.pt-\[18px\] {
+  padding-top: 18px;
+}
+
+.font-\[Felipa\] {
+  font-family: Felipa;
+}
+
+.font-felipa {
+  font-family: Felipa;
+}
+
+.text-\[30px\] {
+  font-size: 30px;
+}
+
+.text-\[55px\] {
+  font-size: 55px;
+}
+
+.\[number\:Range\] {
+  number: Range;
+}
+
+.\[number\:ap_cost\] {
+  number: ap cost;
+}
+
+.\[number\:blood_cost\] {
+  number: blood cost;
+}
+
+.\[number\:charges\] {
+  number: charges;
+}
+
+.\[number\:magical_def\] {
+  number: magical def;
+}
+
+.\[number\:physical_def\] {
+  number: physical def;
+}
+
+.\[number\:repair_mod\] {
+  number: repair mod;
+}
+
+.\[number\:size\] {
+  number: size;
+}
+
+.\[number\:tier\] {
+  number: tier;
+}
+
+.\[number\:xp\] {
+  number: xp;
+}
+
+.\[text\:damage\] {
+  text: damage;
+}
+
+.\[text\:heal\] {
+  text: heal;
+}
+
+.\[text\:lore\] {
+  text: lore;
+}
+
+.\[text\:nickname\] {
+  text: nickname;
+}
+
+.\[textArea\:info\] {
+  text-area: info;
+}
+
+.\[textArea\:skills\] {
+  text-area: skills;
+}
+
+.\[textArea\:ultimate\] {
+  text-area: ultimate;
+}
+
+.az-masked-image {
+  -webkit-mask-size: cover;
+          mask-size: cover;
+  -webkit-mask-repeat: no-repeat;
+          mask-repeat: no-repeat;
+}

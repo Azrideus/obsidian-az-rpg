@@ -10,11 +10,11 @@ import CharacterTitle from "./CharacterTitle";
 
 export default function CharacterSheet(props: { image_folder: string }) {
 	return (
-		<div className="az-character-sheet">
+		<div className="w-[210mm] h-[297mm] relative">
 			<SheetBackground {...props} />
 
 			<div
-				className="az-absfiller az-character-sheet-body"
+				className="absolute inset-0 az-character-sheet-body"
 				style={{ zIndex: 2 }}
 			>
 				<CharacterTitle {...props} />

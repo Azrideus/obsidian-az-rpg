@@ -1,1 +1,7 @@
+@tailwind utilities;
 @import url("https://fonts.googleapis.com/css2?family=Felipa&family=Romanesco&display=swap");
+
+.az-masked-image {
+	mask-size: cover;
+	mask-repeat: no-repeat;
+}

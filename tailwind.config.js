@@ -1,12 +1,14 @@
 /** @type {import('tailwindcss').Config} */
 module.exports = {
-	content: [
-		"./src/**/*.{js,ts,jsx,tsx,mdx}",
-		"./src/functions/*.{js,ts,jsx,tsx,mdx}",
-		"./src/data/config.json",
-	],
+	content: ["./src/**/*.{js,ts,jsx,tsx,mdx}"],
 	theme: {
-		fontFamily: {},
+		fontFamily: {
+			dysto: ["Dystopian Society"],
+			viner: ["Viner Hand ITC"],
+			mono: ["monospace"],
+			wizard: ["Wizard"],
+			felipa: ["Felipa"],
+		},
 		fontSize: {
 			base: "1rem",
 			sm: "8pt",
