@@ -60,13 +60,13 @@ export const STAT_KEYS = {
 export type StatCategoryType = (typeof STAT_CATEGORIES)[number];
 export type StatKeyType = (typeof STAT_KEYS)[StatCategoryType][number];
 
-type RawStatObject = {
+export type RawStatObject = {
 	[key in StatKeyType]: number;
 };
-type CategorizedStatObject = {
+export type CategorizedStatObject = {
 	[key in StatCategoryType]: RawStatObject;
 };
-type StatObject = RawStatObject & CategorizedStatObject;
+export type StatObject = RawStatObject & CategorizedStatObject;
 type StatArray = { [key in StatCategoryType]: StatKeyType[] };
 type DetailsObjectType = {
 	hp: number;
@@ -118,7 +118,7 @@ export class rpgCreature extends rpgBaseClass {
 		for (const category in STAT_KEYS) {
 			const cat = category as StatCategoryType;
 			result[cat] = {} as any;
-			for (const stat_key in STAT_KEYS[cat]) {
+			for (const stat_key of STAT_KEYS[cat]) {
 				const key = stat_key as StatKeyType;
 
 				let stat_value = this.getNum(key, 0);

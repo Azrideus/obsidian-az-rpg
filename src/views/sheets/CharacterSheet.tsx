@@ -1,23 +1,28 @@
-import { App } from "obsidian";
-import { rpgBaseExtendedComponent } from "../base/rpgBaseExtendedComponent";
-import { rpgFieldMaker } from "src/controllers/rpgFieldMaker";
+import { App, TFile } from "obsidian";
 import { rpgCreature } from "src/classes/rpgCreature";
-import { rpgUtils } from "src/controllers/rpgUtils";
-import { rpgItem } from "src/classes/rpgItem";
-import Portrait from "./Portrait";
 import SheetBackground from "./SheetBackground";
 import CharacterTitle from "./CharacterTitle";
-
-export default function CharacterSheet(props: { image_folder: string }) {
+import CharacterStats from "./CharacterStats";
+export type SharedProps = {
+	image_folder: string;
+	creature: rpgCreature;
+};
+export default function CharacterSheet(props: SharedProps) {
 	return (
-		<div className="w-[210mm] h-[297mm] relative">
-			<SheetBackground {...props} />
+		<div>
+			<div className="w-[210mm] h-[297mm] relative">
+				<SheetBackground {...props} />
 
-			<div
-				className="absolute inset-0 az-character-sheet-body"
-				style={{ zIndex: 2 }}
-			>
-				<CharacterTitle {...props} />
+				<div
+					className="absolute inset-0 flex flex-col items-center"
+					style={{ zIndex: 2 }}
+				>
+					<CharacterTitle {...props} />
+					<CharacterStats {...props} />
+				</div>
+			</div>
+			<div className="w-[210mm] h-[297mm] relative">
+				<SheetBackground {...props} />
 			</div>
 		</div>
 	);

@@ -7,9 +7,9 @@
   resolved "https://registry.yarnpkg.com/@alloc/quick-lru/-/quick-lru-5.2.0.tgz#7bf68b20c0a350f936915fcae06f58e32007ce30"
   integrity sha512-UrcABB+4bUrFABwbluTIBErXwvbsU/V7TZWfmbgJfbkwiBuziS9gxdODUyuiecfdGQ85jglMW6juS3+z5TsKLw==
 
-"@codemirror/language@git+https://github.com/lishid/cm-language.git":
+"@codemirror/language@https://github.com/lishid/cm-language":
   version "6.10.8"
-  resolved "git+https://github.com/lishid/cm-language.git#6c1c5f5b677f6f6503d1ca2ec47f62f6406cda67"
+  resolved "https://github.com/lishid/cm-language#6c1c5f5b677f6f6503d1ca2ec47f62f6406cda67"
   dependencies:
     "@codemirror/state" "^6.0.0"
     "@codemirror/view" "^6.23.0"
@@ -247,9 +247,9 @@
     "@types/tern" "*"
 
 "@types/estree@*":
-  version "1.0.7"
-  resolved "https://registry.yarnpkg.com/@types/estree/-/estree-1.0.7.tgz#4158d3105276773d5b7695cd4834b1722e4f37a8"
-  integrity sha512-w28IoSUCJpidD/TGviZwwMJckNESJZXFu7NBZ5YJ4mEUnNraUn9Pm8HSZm/jDF1pDWYKspWE7oVphigUPRakIQ==
+  version "1.0.8"
+  resolved "https://registry.yarnpkg.com/@types/estree/-/estree-1.0.8.tgz#958b91c991b1867ced318bedea0e215ee050726e"
+  integrity sha512-dWHzHa2WqEXI/O1E9OjrocMTKJl2mSrEolh1Iomrv6U+JuNwaHXsXx9bLu5gG7BUWFIN0skIQJQ/L1rIex4X6w==
 
 "@types/json-schema@^7.0.9":
   version "7.0.15"
@@ -453,6 +453,11 @@ chokidar@^3.6.0:
     readdirp "~3.6.0"
   optionalDependencies:
     fsevents "~2.3.2"
+
+clsx@^2.1.1:
+  version "2.1.1"
+  resolved "https://registry.yarnpkg.com/clsx/-/clsx-2.1.1.tgz#eed397c9fd8bd882bfb18deab7102049a2f32999"
+  integrity sha512-eYm0QWBtUrBWZWG0d386OGAw16Z995PiOVo2B7bjWSbHedGl5e0ZWaq65kOGgUSNesEIDkB9ISbTg/JK9dhCZA==
 
 color-convert@^2.0.1:
   version "2.0.1"
@@ -898,17 +903,17 @@ obsidian-dataview@0.5.66:
     parsimmon "^1.18.0"
     preact "^10.6.5"
 
-"obsidian@github:obsidianmd/obsidian-api#master":
-  version "1.8.7"
-  resolved "https://codeload.github.com/obsidianmd/obsidian-api/tar.gz/103ff76a0712a02dd0da28646b5a6b0ba6686d66"
-  dependencies:
-    "@types/codemirror" "5.60.8"
-    moment "2.29.4"
-
 obsidian@latest:
   version "1.8.7"
   resolved "https://registry.yarnpkg.com/obsidian/-/obsidian-1.8.7.tgz#601e9ea1724289effa4c9bb3b4e20d327263634f"
   integrity sha512-h4bWwNFAGRXlMlMAzdEiIM2ppTGlrh7uGOJS6w4gClrsjc+ei/3YAtU2VdFUlCiPuTHpY4aBpFJJW75S1Tl/JA==
+  dependencies:
+    "@types/codemirror" "5.60.8"
+    moment "2.29.4"
+
+obsidian@obsidianmd/obsidian-api#master:
+  version "1.8.7"
+  resolved "https://codeload.github.com/obsidianmd/obsidian-api/tar.gz/103ff76a0712a02dd0da28646b5a6b0ba6686d66"
   dependencies:
     "@types/codemirror" "5.60.8"
     moment "2.29.4"

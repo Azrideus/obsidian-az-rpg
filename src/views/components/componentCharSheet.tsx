@@ -28,7 +28,10 @@ export class componentCharSheet extends rpgBaseExtendedComponent {
 		this.root = createRoot(this.containerEl);
 		this.root.render(
 			<StrictMode>
-				<CharacterSheet image_folder={this.plugin.image_folder} />
+				<CharacterSheet
+					creature={this.creature}
+					image_folder={this.plugin.image_folder}
+				/>
 			</StrictMode>
 		);
 	}

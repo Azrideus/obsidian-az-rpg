@@ -8,8 +8,9 @@ import { rpgUtils } from "../../controllers/rpgUtils";
 export class rpgBaseClass {
 	readonly app: App;
 	readonly file: TFile | null = null;
-	readonly file_cache: CachedMetadata | null = null;
-	readonly frontmatter: FrontMatterCache | null = null;
+
+	file_cache: CachedMetadata | null = null;
+	frontmatter: FrontMatterCache | null = null;
 	constructor(app: App, p: TFile | string) {
 		this.app = app;
 		if (typeof p === "string") {
@@ -17,13 +18,7 @@ export class rpgBaseClass {
 		} else {
 			this.file = p;
 		}
-		if (this.file != null) {
-			this.file_cache = app.metadataCache.getFileCache(this.file);
-			this.frontmatter = this.file_cache?.frontmatter ?? null;
-		} else {
-			this.file_cache = null;
-			this.frontmatter = null;
-		}
+		this.refreshFileCache();
 	}
 
 	/* -------------------------------------------------------------------------- */
@@ -42,5 +37,41 @@ export class rpgBaseClass {
 	}
 	getArray(key: string) {
 		return Array.isArray(this.get(key)) ? this.get(key) : [this.get(key)];
+	}
+
+	refreshFileCache(key: string = "", value: any = null) {
+		if (key && this.frontmatter !== null) {
+			/**
+			 * update only the given key
+			 */
+			this.frontmatter[key] = value;
+			return true;
+		}
+		/**
+		 * update all
+		 */
+		if (this.file != null) {
+			this.file_cache = this.app.metadataCache.getFileCache(this.file);
+			this.frontmatter = this.file_cache?.frontmatter ?? null;
+			return true;
+		} else {
+			this.file_cache = null;
+			this.frontmatter = null;
+			return false;
+		}
+	}
+	async updateMetaData(key: string, value: any) {
+		if (!this.file) {
+			console.error("No active file.");
+			return;
+		}
+		await this.app.fileManager.processFrontMatter(
+			this.file,
+			(frontmatter) => {
+				frontmatter[key] = value;
+			}
+		);
+		this.refreshFileCache(key, value);
+		return value;
 	}
 }
