@@ -147,7 +147,7 @@ export class rpgCreature extends rpgBaseClass {
 	get_details(): DetailsObjectType {
 		const stats = this.get_stats();
 		return {
-			hp: 2 + stats.vitality,
+			hp: 4 + 2 * stats.vitality,
 			mana: 2 * stats.intelligence,
 			blood: 2 * stats.intelligence + stats.vitality,
 			...stats,

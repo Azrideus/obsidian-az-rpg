@@ -49,6 +49,7 @@ export class rpgUtils {
 	): RPG_FileType {
 		const tags = app.metadataCache.getFileCache(file)?.tags || [];
 
+		//TODO FIX
 		const tag_mappings: RPG_FileTypeObject = {
 			creature: ["#creature", "#npc", "#monster", "#player"],
 			item: ["#item", "items"],
