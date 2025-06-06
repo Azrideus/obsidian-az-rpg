@@ -1,15 +1,16 @@
 import clsx from "clsx";
-import { SharedProps } from './CharacterSheet';
-export default function StatLine(props:SharedProps& {
-	label: string;
-	value: number;
-	max?: number;
-}) {
+import { SharedProps } from "./CharacterSheet";
+export default function StatLine(
+	props: SharedProps & {
+		label: string;
+		value: number;
+		max?: number;
+	}
+) {
 	const max = props.max ?? 7;
 	const filledCircles = "●".repeat(props.value).split("");
 	const emptyCircles = "●".repeat(max - props.value).split("");
-	
-	props.creature.file.
+
 	const hidden = !props.label || props.label === "";
 
 	return (
