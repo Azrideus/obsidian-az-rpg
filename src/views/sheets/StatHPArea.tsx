@@ -7,6 +7,7 @@ import useProperty from "../hooks/useProperty";
 import UnderlineView from "../shared/UnderlineView";
 import * as React from "react";
 import LinkedField from "../shared/LinkedField";
+import LinkedDotView from "../shared/LinkedDotView";
 
 export default function StatHPArea(props: SharedProps) {
 	const details = React.useMemo(() => {
@@ -16,11 +17,7 @@ export default function StatHPArea(props: SharedProps) {
 	const max_mana = details.mana;
 	const max_blood = details.blood;
 
-	const [willpower, set_willpower] = useProperty(props.creature, "willpower");
 	const [total_xp, set_total_xp] = useProperty(props.creature, "total_xp");
-	const [hp, set_hp] = useProperty(props.creature, "hp");
-	const [mana, set_mana] = useProperty(props.creature, "mana");
-	const [blood, set_blood] = useProperty(props.creature, "blood");
 
 	return (
 		<div className="flex flex-row w-full ">
@@ -38,44 +35,54 @@ export default function StatHPArea(props: SharedProps) {
 						className="!bg-transparent !border-none w-16"
 					/>
 				</UnderlineView>
-				<DotView
+				<LinkedDotView
+					creature={props.creature}
+					field_name={"willpower"}
 					dotSymbol="◇"
 					dotSize={14}
 					showValue
 					label={"Willpower"}
-					value={willpower}
-					set_value={set_willpower}
 					max={10}
 					color="#f4b400"
-				></DotView>
-				<DotView
+				/>
+				<LinkedDotView
+					creature={props.creature}
+					field_name="shield"
+					dotSymbol="▢"
+					dotSize={14}
+					showValue
+					label={"shield"}
+					max={10}
+					color="#00a4ef"
+				/>
+				<LinkedDotView
+					creature={props.creature}
+					field_name="hp"
 					dotSymbol="♡"
 					dotSize={16}
 					showValue
 					label={"HP"}
-					value={hp}
-					set_value={set_hp}
 					max={max_hp}
 					color="#a4c639"
-				></DotView>
+				/>
 
 				{props.theme.useBlood ? (
-					<DotView
+					<LinkedDotView
+						creature={props.creature}
+						field_name="blood"
 						showValue
 						label={"Blood"}
-						value={blood}
-						set_value={set_blood}
 						max={max_blood}
-					></DotView>
+					></LinkedDotView>
 				) : (
-					<DotView
+					<LinkedDotView
+						creature={props.creature}
+						field_name="mana"
 						dotSymbol="▽"
 						showValue
 						label={"Mana"}
-						value={mana}
-						set_value={set_mana}
 						max={max_mana}
-					></DotView>
+					></LinkedDotView>
 				)}
 			</div>
 		</div>

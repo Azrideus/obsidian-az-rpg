@@ -1,15 +1,19 @@
 import clsx from "clsx";
 import UnderlineView from "./UnderlineView";
-export default function DotView(props: {
-	value: any;
-	set_value: (v: any) => void;
+
+export type DotViewProps = {
 	label?: string;
 	color?: string;
 	dotSymbol?: string;
 	dotSize?: number;
 	max?: number;
 	showValue?: boolean;
-}) {
+};
+export type DotViewWithValueProps = DotViewProps & {
+	value: any;
+	set_value: (v: any) => void;
+};
+export default function DotView(props: DotViewWithValueProps) {
 	const { value, set_value } = props;
 	const max = props.max ?? 7;
 
