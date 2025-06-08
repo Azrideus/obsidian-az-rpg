@@ -27,10 +27,10 @@ export const STAT_KEYS = {
 	talents: [
 		"awareness",
 		"brawl",
-		"",
-		"",
+		"__1",
 		"athletics",
-		"",
+		"__2",
+		"__3",
 		"intimidation",
 		"leadership",
 		"deception",
@@ -41,6 +41,7 @@ export const STAT_KEYS = {
 		"",
 		"etiquette",
 		"driving",
+		"stealth",
 		"",
 		"crafting",
 		"animals",
@@ -201,7 +202,8 @@ export class rpgCreature extends rpgBaseClass {
 	}
 
 	get_details(): DetailsObjectType {
-		const stats = this.get_stats();
+		const stats = this.get_stats(true);
+		console.log("get_details", stats);
 		return {
 			hp: 4 + 2 * stats.vitality,
 			mana: 2 * stats.intelligence,

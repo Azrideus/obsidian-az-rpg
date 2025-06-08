@@ -24,6 +24,7 @@ export default function StatGroup(
 		}
 		return props.title;
 	}, [props.title, props.stats, showTotals]);
+
 	return (
 		<SmallBlock title={title}>
 			{props.stats.map((s) => {
