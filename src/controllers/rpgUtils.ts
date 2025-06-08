@@ -1,4 +1,5 @@
 import { App, Editor, Keymap, MarkdownView, TFile } from "obsidian";
+import { DO_NOT_USE_OR_YOU_WILL_BE_FIRED_EXPERIMENTAL_IMG_SRC_TYPES } from "react";
 
 export type RPG_FileType = "creature" | "item" | "none";
 export type RPG_FileTypeObject = {
@@ -143,5 +144,21 @@ export class rpgUtils {
 				});
 			});
 		}, 10);
+	}
+
+	/**
+	 * SUM = a + ad + ad^2 + ad^3 + ... + ad^(n-1)
+	 */
+	static geometric_sum(n: number, a: number, d: number): number {
+		if (n == 0) return 0;
+		return (a * (1 - Math.pow(d, n))) / (1 - d);
+	}
+
+	/**
+	 * SUM = a + (a+d) + (a + 2d) + ... + (a + (n-1)d)
+	 */
+	static numberic_sum(n: number, a: number, d: number): number {
+		if (n == 0) return 0;
+		return n * a + (d * ((n - 1) * n)) / 2;
 	}
 }

@@ -3,9 +3,14 @@ import { rpgCreature } from "src/classes/rpgCreature";
 import SheetBackground from "./SheetBackground";
 import CharacterTitle from "./CharacterTitle";
 import CharacterStats from "./CharacterStats";
+export type SheetTheme = {
+	primaryColor: string;
+	showTotals: boolean;
+};
 export type SharedProps = {
 	image_folder: string;
 	creature: rpgCreature;
+	theme: SheetTheme;
 };
 export default function CharacterSheet(props: SharedProps) {
 	return (

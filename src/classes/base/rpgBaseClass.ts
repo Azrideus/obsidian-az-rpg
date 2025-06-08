@@ -28,6 +28,7 @@ export class rpgBaseClass {
 		if (this.frontmatter == null || !(key in this.frontmatter)) return null;
 		return this.frontmatter[key];
 	}
+
 	getStr_lc(key: string) {
 		const value = String(this.get(key) || "");
 		return value.toLowerCase();

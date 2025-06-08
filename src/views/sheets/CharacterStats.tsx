@@ -1,7 +1,6 @@
 import { App } from "obsidian";
 import { STAT_KEYS } from "src/classes/rpgCreature";
 import { SharedProps } from "./CharacterSheet";
-import StatLine from "./StatLine";
 import LineDivider from "../shared/LineDivider";
 import StatGroup from "./StatGroup";
 import StatAdvantages from "./StatAdvantages";
@@ -19,8 +18,9 @@ export default function CharacterStats(props: SharedProps) {
 				{ATTRIBUTE_CATEGORIES.map((category) => (
 					<StatGroup
 						{...props}
+						key={category}
 						title={category}
-						stats={stats[category]}
+						stats={Object.keys(stats[category]) as any}
 					/>
 				))}
 			</StatArea>
@@ -28,8 +28,9 @@ export default function CharacterStats(props: SharedProps) {
 				{ABILITY_CATEGORIES.map((category) => (
 					<StatGroup
 						{...props}
+						key={category}
 						title={category}
-						stats={stats[category]}
+						stats={Object.keys(stats[category]) as any}
 					/>
 				))}
 			</StatArea>

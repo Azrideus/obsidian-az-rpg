@@ -5,11 +5,14 @@ import { componentRepairTable } from "./componentRepairTable";
 import { Root, createRoot } from "react-dom/client";
 import { rpgCreature } from "../../classes/rpgCreature";
 import { StrictMode } from "react";
-import CharacterSheet from "../sheets/CharacterSheet";
+import CharacterSheet, { SheetTheme } from "../sheets/CharacterSheet";
 import az_rpg from "main";
 
 export const VIEW_TYPE_STAT = "rpg_view_character_sheet";
 
+const themes: { [key: string]: SheetTheme } = {
+	vampire: { showTotals: true, primaryColor: "crimson" },
+};
 export class componentCharSheet extends rpgBaseExtendedComponent {
 	readonly creature: rpgCreature;
 	root: Root | null = null;
@@ -29,6 +32,7 @@ export class componentCharSheet extends rpgBaseExtendedComponent {
 		this.root.render(
 			<StrictMode>
 				<CharacterSheet
+					theme={themes.vampire}
 					creature={this.creature}
 					image_folder={this.plugin.image_folder}
 				/>
