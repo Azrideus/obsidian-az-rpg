@@ -15,3 +15,6 @@
 	background-color: rgba(0, 0, 0, 0.5);
 	pointer-events: none;
 }
+.az-bottom-dashed {
+	border-bottom: 0.5px dashed gray;
+}

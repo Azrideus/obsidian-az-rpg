@@ -2,7 +2,7 @@ import { rpgUtils } from "src/controllers/rpgUtils";
 import { rpgBaseClass as rpgBaseClass } from "./base/rpgBaseClass";
 import { rpgItem } from "./rpgItem";
 
-const MAX_BONUS_COUNT = 5;
+export const MAX_BONUS_COUNT = 4;
 export const CLASS_CATEGORIES = [
 	"enhancer",
 	"emission",
@@ -184,7 +184,7 @@ export class rpgCreature extends rpgBaseClass {
 	}
 
 	async set_stat(stat_key: StatKeyType, value: number) {
-		await this.updateMetaData("stat_" + stat_key, value);
+		await this.set("stat_" + stat_key, value);
 		const result_value = this.get_stat(stat_key, false);
 		return result_value;
 	}

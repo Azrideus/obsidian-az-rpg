@@ -24,10 +24,6 @@ export class rpgBaseClass {
 	/* -------------------------------------------------------------------------- */
 	/*                                   Getters                                  */
 	/* -------------------------------------------------------------------------- */
-	get(key: string) {
-		if (this.frontmatter == null || !(key in this.frontmatter)) return null;
-		return this.frontmatter[key];
-	}
 
 	getStr_lc(key: string) {
 		const value = String(this.get(key) || "");
@@ -61,7 +57,13 @@ export class rpgBaseClass {
 			return false;
 		}
 	}
-	async updateMetaData(key: string, value: any) {
+
+	get(key: string) {
+		if (this.frontmatter == null || !(key in this.frontmatter)) return null;
+		return this.frontmatter[key];
+	}
+
+	async set(key: string, value: any) {
 		if (!this.file) {
 			console.error("No active file.");
 			return;

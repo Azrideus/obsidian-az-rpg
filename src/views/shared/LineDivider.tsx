@@ -10,7 +10,7 @@ export default function LineDivider(props: any) {
 			{props.children && (
 				<b
 					className={clsx(
-						"flex-shrink mx-4 font-felipa",
+						"flex-shrink mx-4 font-felipa capitalize",
 						props.className,
 						props.small ? "text-[15pt]" : "text-[20pt]"
 					)}

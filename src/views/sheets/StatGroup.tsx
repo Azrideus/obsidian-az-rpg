@@ -3,6 +3,7 @@ import { RawStatObject, StatKeyType } from "../../classes/rpgCreature";
 import LineDivider from "../shared/LineDivider";
 import { SharedProps } from "./CharacterSheet";
 import StatLine from "./StatLine";
+import SmallBlock from "./blocks/SmallBlock";
 
 export default function StatGroup(
 	props: SharedProps & {
@@ -15,7 +16,7 @@ export default function StatGroup(
 		if (showTotals) {
 			const sum = props.creature.get_stat_sum(props.stats);
 			return (
-				<span className="flex flex-row gap-1">
+				<span className="flex flex-row gap-1 ">
 					{props.title}
 					<span className="opacity-50 text-[0.9em]">({sum})</span>
 				</span>
@@ -24,15 +25,10 @@ export default function StatGroup(
 		return props.title;
 	}, [props.title, props.stats, showTotals]);
 	return (
-		<div className="flex flex-col flex-1">
-			<LineDivider small>
-				<b className="capitalize text-center w-full">{title}</b>
-			</LineDivider>
-			<div className="flex flex-col">
-				{props.stats.map((s) => {
-					return <StatLine {...props} key={s} stat={s} />;
-				})}
-			</div>
-		</div>
+		<SmallBlock title={title}>
+			{props.stats.map((s) => {
+				return <StatLine {...props} key={s} stat={s} />;
+			})}
+		</SmallBlock>
 	);
 }

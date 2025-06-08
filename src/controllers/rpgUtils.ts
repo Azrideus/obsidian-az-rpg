@@ -52,7 +52,7 @@ export class rpgUtils {
 
 		//TODO FIX
 		const tag_mappings: RPG_FileTypeObject = {
-			creature: ["#creature", "#npc", "#monster", "#player"],
+			creature: ["#creature", "#npc", "#monster", "#player", "#unit"],
 			item: ["#item", "items"],
 			none: [],
 		};

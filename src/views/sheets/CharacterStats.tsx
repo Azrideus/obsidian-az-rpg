@@ -6,6 +6,7 @@ import StatGroup from "./StatGroup";
 import StatAdvantages from "./StatAdvantages";
 import StatMagic from "./StatMagic";
 import StatHPArea from "./StatHPArea";
+import BigBlock from "./blocks/BigBlock";
 
 export default function CharacterStats(props: SharedProps) {
 	const stats = props.creature.get_stats(true); // include bonuses
@@ -14,7 +15,7 @@ export default function CharacterStats(props: SharedProps) {
 
 	return (
 		<div className="flex flex-col w-full items-center px-[1.5cm] gap-2">
-			<StatArea title="Attributes">
+			<BigBlock title="Attributes">
 				{ATTRIBUTE_CATEGORIES.map((category) => (
 					<StatGroup
 						{...props}
@@ -23,8 +24,8 @@ export default function CharacterStats(props: SharedProps) {
 						stats={Object.keys(stats[category]) as any}
 					/>
 				))}
-			</StatArea>
-			<StatArea title="Abilities">
+			</BigBlock>
+			<BigBlock title="Abilities">
 				{ABILITY_CATEGORIES.map((category) => (
 					<StatGroup
 						{...props}
@@ -33,26 +34,16 @@ export default function CharacterStats(props: SharedProps) {
 						stats={Object.keys(stats[category]) as any}
 					/>
 				))}
-			</StatArea>
-			<StatArea title="Advantages">
+			</BigBlock>
+			<BigBlock title="Advantages">
 				<StatAdvantages {...props} />
-			</StatArea>
-			<StatArea title="Magical Abilities">
+			</BigBlock>
+			<BigBlock title="Magical Abilities">
 				<StatMagic {...props} />
-			</StatArea>
-			<StatArea title="">
+			</BigBlock>
+			<BigBlock title="">
 				<StatHPArea {...props} />
-			</StatArea>
-		</div>
-	);
-}
-function StatArea(props: { title: string; children?: any }) {
-	return (
-		<div className="flex flex-col w-full">
-			<LineDivider>{props.title}</LineDivider>
-			<div className="flex flex-row gap-4 w-full justify-between">
-				{props.children}
-			</div>
+			</BigBlock>
 		</div>
 	);
 }

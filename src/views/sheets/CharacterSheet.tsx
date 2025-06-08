@@ -6,6 +6,7 @@ import CharacterStats from "./CharacterStats";
 export type SheetTheme = {
 	primaryColor: string;
 	showTotals: boolean;
+	useBlood: boolean;
 };
 export type SharedProps = {
 	image_folder: string;

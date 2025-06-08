@@ -11,7 +11,7 @@ import az_rpg from "main";
 export const VIEW_TYPE_STAT = "rpg_view_character_sheet";
 
 const themes: { [key: string]: SheetTheme } = {
-	vampire: { showTotals: true, primaryColor: "crimson" },
+	vampire: { showTotals: true, primaryColor: "crimson", useBlood: true },
 };
 export class componentCharSheet extends rpgBaseExtendedComponent {
 	readonly creature: rpgCreature;

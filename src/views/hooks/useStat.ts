@@ -7,7 +7,7 @@ export default function useStat(creature: rpgCreature, stat_key: StatKeyType) {
 	);
 	const set = React.useCallback(
 		(value: any) => {
-			creature.set_stat(stat_key, value).then(setStatValue);
+			creature.set_stat(stat_key, Number(value)).then(setStatValue);
 		},
 		[creature, stat_key]
 	);
