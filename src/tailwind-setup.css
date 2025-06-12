@@ -1,6 +1,8 @@
 @tailwind utilities;
-@import url("https://fonts.googleapis.com/css2?family=Felipa&family=Romanesco&display=swap");
+@import url("https://fonts.googleapis.com/css2?family=Poppins&display=swap");
+@import url("https://fonts.googleapis.com/css2?family=Felipa&family=Lavishly+Yours&family=Romanesco&display=swap");
 
+/* -------------------------------------------------------------------------- */
 .az-masked-image {
 	mask-size: cover;
 	mask-repeat: no-repeat;
@@ -12,7 +14,7 @@
 	left: 0;
 	width: 100%;
 	height: 100%;
-	background-color: rgba(0, 0, 0, 0.5);
+	background-color: rgba(0, 0, 0, 0.7);
 	pointer-events: none;
 }
 .az-bottom-dashed {

@@ -1,9 +1,12 @@
 import { App } from "obsidian";
 
 import { SharedProps } from "./CharacterSheet";
+import * as React from "react";
 
 export default function SheetBackground(props: SharedProps) {
-	const backgroundImage = `${props.image_folder}/bg-vampire.png`;
+	const backgroundImage = React.useMemo(() => {
+		return `${props.image_folder}/${props.theme.image}`;
+	}, [props.theme.image]);
 	const backgroundMask = `${props.image_folder}/bg-mask.png`;
 	const avatarMask = `${props.image_folder}/avatar-mask.png`;
 
@@ -22,7 +25,7 @@ export default function SheetBackground(props: SharedProps) {
 			>
 				{/* Avatar layer (optional content) */}
 			</div>
-			<div className="absolute  inset-0 az-masked-image az-dimmed-overlay z-0 ">
+			<div className="absolute inset-0 az-masked-image az-dimmed-overlay z-0 ">
 				<img
 					src={backgroundImage}
 					className="absolute inset-0 object-cover"

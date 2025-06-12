@@ -5,8 +5,10 @@ import CharacterTitle from "./CharacterTitle";
 import CharacterStats from "./CharacterStats";
 export type SheetTheme = {
 	primaryColor: string;
+	image: string;
 	showTotals: boolean;
-	useBlood: boolean;
+	manaUnit: string;
+	manaSymbol: string;
 };
 export type SharedProps = {
 	image_folder: string;

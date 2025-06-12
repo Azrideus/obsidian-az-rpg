@@ -3,11 +3,10 @@ module.exports = {
 	content: ["./src/**/*.{js,ts,jsx,tsx,mdx}"],
 	theme: {
 		fontFamily: {
-			dysto: ["Dystopian Society"],
-			viner: ["Viner Hand ITC"],
-			mono: ["monospace"],
-			wizard: ["Wizard"],
 			felipa: ["Felipa"],
+			romanesco: ["Romanesco"],
+			poppins: ["Poppins"],
+			lavish: ["Lavishly Yours"],
 		},
 		fontSize: {
 			base: "1rem",

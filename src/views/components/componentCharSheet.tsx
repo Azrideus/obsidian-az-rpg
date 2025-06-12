@@ -8,6 +8,7 @@ import { StrictMode } from "react";
 import CharacterSheet, { SheetTheme } from "../sheets/CharacterSheet";
 import az_rpg from "main";
 import { themes } from "../themes";
+import { rpgUtils } from "src/controllers/rpgUtils";
 
 export const VIEW_TYPE_STAT = "rpg_view_character_sheet";
 
@@ -27,10 +28,11 @@ export class componentCharSheet extends rpgBaseExtendedComponent {
 	async onload() {
 		this.containerEl.addClass("az-character-sheet-parent");
 		this.root = createRoot(this.containerEl);
+		const theme = rpgUtils.getFileRpgTheme(this.app, this.creature.file);
 		this.root.render(
 			<StrictMode>
 				<CharacterSheet
-					theme={themes.vampire}
+					theme={theme}
 					creature={this.creature}
 					image_folder={this.plugin.image_folder}
 				/>

@@ -1,9 +1,9 @@
 import * as React from "react";
-import { RawStatObject, StatKeyType } from "../../classes/rpgCreature";
-import LineDivider from "../shared/LineDivider";
-import { SharedProps } from "./CharacterSheet";
-import StatLine from "./StatLine";
-import SmallBlock from "./blocks/SmallBlock";
+import { RawStatObject, StatKeyType } from "../../../classes/rpgCreature";
+import LineDivider from "../../shared/LineDivider";
+import { SharedProps } from "../CharacterSheet";
+import StatLine from "../StatLine";
+import SmallBlock from "./SmallBlock";
 
 export default function StatGroup(
 	props: SharedProps & {

@@ -1,6 +1,7 @@
 import { App, CachedMetadata, FrontMatterCache, TFile } from "obsidian";
 import { DataviewApi, getAPI } from "obsidian-dataview";
 import { rpgUtils } from "../../controllers/rpgUtils";
+import { SheetTheme } from "src/views/sheets/CharacterSheet";
 
 /**
  * Wrapper class for all classes in the azrpg project.
@@ -11,6 +12,7 @@ export class rpgBaseClass {
 
 	file_cache: CachedMetadata | null = null;
 	frontmatter: FrontMatterCache | null = null;
+	theme: SheetTheme | null = null;
 	constructor(app: App, p: TFile | string) {
 		this.app = app;
 		if (typeof p === "string") {
@@ -44,6 +46,7 @@ export class rpgBaseClass {
 			this.frontmatter[key] = value;
 			return true;
 		}
+		this.theme = rpgUtils.getFileRpgTheme(this.app, this.file);
 		/**
 		 * update all
 		 */

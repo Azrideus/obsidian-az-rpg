@@ -9,11 +9,11 @@ export default function UnderlineView(props: {
 	return (
 		<div
 			className={clsx(
-				"flex justify-between items-center gap-[1mm] h-[5mm]",
+				"flex justify-between items-center gap-[1mm] h-[5.1mm]",
 				hidden ? " invisible" : " visible"
 			)}
 		>
-			<span className="capitalize text-[10pt]  leading-snug">
+			<span className="capitalize text-[11pt] leading-snug font-bold">
 				{label}
 			</span>
 			<span className=" flex-1 h-full az-bottom-dashed"></span>

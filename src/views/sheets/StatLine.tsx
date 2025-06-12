@@ -19,6 +19,12 @@ export default function StatLine(
 		return s;
 	}, [props.label, props.stat]);
 	return (
-		<DotView set_value={set_value} value={value} label={label} max={max} />
+		<DotView
+			{...props}
+			set_value={set_value}
+			value={value}
+			label={label}
+			max={max}
+		/>
 	);
 }

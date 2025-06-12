@@ -1,7 +1,10 @@
 import clsx from "clsx";
 import UnderlineView from "./UnderlineView";
+import { rpgCreature } from "src/classes/rpgCreature";
+import { SharedProps } from "../sheets/CharacterSheet";
 
-export type DotViewProps = {
+export type DotViewProps = SharedProps & {
+	creature: rpgCreature;
 	label?: string;
 	color?: string;
 	dotSymbol?: string;
@@ -22,7 +25,7 @@ export default function DotView(props: DotViewWithValueProps) {
 	const circles = dotSymbol.repeat(Math.max(max, value)).split("");
 	const label = props.label;
 	const hidden = !label || label === "";
-	const color = props.color ?? "crimson";
+	const color = props.color ?? props.theme?.primaryColor ?? "crimson";
 
 	return (
 		<UnderlineView

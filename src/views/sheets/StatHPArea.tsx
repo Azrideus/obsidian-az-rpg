@@ -1,6 +1,6 @@
 import { App } from "obsidian";
 import { SharedProps } from "./CharacterSheet";
-import StatGroup from "./StatGroup";
+import StatGroup from "./blocks/StatGroup";
 import SmallBlock from "./blocks/SmallBlock";
 import DotView from "../shared/DotView";
 import useProperty from "../hooks/useProperty";
@@ -18,7 +18,6 @@ export default function StatHPArea(props: SharedProps) {
 	const max_blood = details.blood;
 
 	const [total_xp, set_total_xp] = useProperty(props.creature, "total_xp");
-
 	return (
 		<div className="flex flex-row w-full ">
 			<div className="flex-1"> </div>
@@ -36,6 +35,7 @@ export default function StatHPArea(props: SharedProps) {
 					/>
 				</UnderlineView>
 				<LinkedDotView
+					{...props}
 					creature={props.creature}
 					field_name={"willpower"}
 					dotSymbol="◇"
@@ -46,6 +46,7 @@ export default function StatHPArea(props: SharedProps) {
 					color="#f4b400"
 				/>
 				<LinkedDotView
+					{...props}
 					creature={props.creature}
 					field_name="shield"
 					dotSymbol="▢"
@@ -56,6 +57,7 @@ export default function StatHPArea(props: SharedProps) {
 					color="#00a4ef"
 				/>
 				<LinkedDotView
+					{...props}
 					creature={props.creature}
 					field_name="hp"
 					dotSymbol="♡"
@@ -66,24 +68,15 @@ export default function StatHPArea(props: SharedProps) {
 					color="#a4c639"
 				/>
 
-				{props.theme.useBlood ? (
-					<LinkedDotView
-						creature={props.creature}
-						field_name="blood"
-						showValue
-						label={"Blood"}
-						max={max_blood}
-					></LinkedDotView>
-				) : (
-					<LinkedDotView
-						creature={props.creature}
-						field_name="mana"
-						dotSymbol="▽"
-						showValue
-						label={"Mana"}
-						max={max_mana}
-					></LinkedDotView>
-				)}
+				<LinkedDotView
+					{...props}
+					creature={props.creature}
+					field_name={props.theme.manaUnit}
+					label={props.theme.manaUnit}
+					dotSymbol={props.theme.manaSymbol}
+					showValue
+					max={max_blood}
+				></LinkedDotView>
 			</div>
 		</div>
 	);

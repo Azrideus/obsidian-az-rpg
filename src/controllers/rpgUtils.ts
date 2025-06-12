@@ -1,5 +1,7 @@
 import { App, Editor, Keymap, MarkdownView, TFile } from "obsidian";
 import { DO_NOT_USE_OR_YOU_WILL_BE_FIRED_EXPERIMENTAL_IMG_SRC_TYPES } from "react";
+import { SheetTheme } from "src/views/sheets/CharacterSheet";
+import { ThemeNameType, themes } from "src/views/themes";
 
 export type RPG_FileType = "creature" | "item" | "none";
 export type RPG_FileTypeObject = {
@@ -39,6 +41,15 @@ export class rpgUtils {
 			return file;
 		}
 		return null;
+	}
+	static getFileRpgTheme(app: App, file: TFile | null): SheetTheme {
+		if (!file) return themes["vampire"]; // default theme if no file is provided
+		const tags = app.metadataCache.getFileCache(file)?.tags || [];
+		for (let theme_key in themes) {
+			if (tags.some((tag) => rpgUtils.str_eq(tag.tag, "#" + theme_key)))
+				return themes[theme_key];
+		}
+		return themes["vampire"]; // default theme if no tag matches
 	}
 	/**
 	 * get the active file and check if its #item or #creature

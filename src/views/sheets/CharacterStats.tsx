@@ -2,7 +2,7 @@ import { App } from "obsidian";
 import { STAT_KEYS } from "src/classes/rpgCreature";
 import { SharedProps } from "./CharacterSheet";
 import LineDivider from "../shared/LineDivider";
-import StatGroup from "./StatGroup";
+import StatGroup from "./blocks/StatGroup";
 import StatAdvantages from "./StatAdvantages";
 import StatMagic from "./StatMagic";
 import StatHPArea from "./StatHPArea";
