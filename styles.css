@@ -199,6 +199,10 @@
   padding-top: 14mm;
 }
 
+.text-center {
+  text-align: center;
+}
+
 .font-felipa {
   font-family: Felipa;
 }
@@ -237,6 +241,10 @@
 
 .text-\[8pt\] {
   font-size: 8pt;
+}
+
+.text-\[0\.7em\] {
+  font-size: 0.7em;
 }
 
 .font-bold {

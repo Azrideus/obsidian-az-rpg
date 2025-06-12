@@ -5,7 +5,7 @@ export const themes: { [key: string]: SheetTheme } = {
 		showTotals: true,
 		primaryColor: "crimson",
 		manaUnit: "blood",
-		manaSymbol: "•",
+		manaSymbol: "●",
 		image: "bg-vampire.png",
 	},
 	frost: {

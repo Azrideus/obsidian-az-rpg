@@ -9,6 +9,7 @@ export type DotViewProps = SharedProps & {
 	color?: string;
 	dotSymbol?: string;
 	dotSize?: number;
+	dotSpacing?: number;
 	max?: number;
 	showValue?: boolean;
 };
@@ -55,6 +56,7 @@ export default function DotView(props: DotViewWithValueProps) {
 							style={{
 								color: isFilled ? color : "",
 								textShadow: "0 0 2px black",
+								letterSpacing: props.dotSpacing ?? "0.1pt",
 							}}
 							className={clsx(
 								`hover:text-[crimson] opacity-50`,
