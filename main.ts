@@ -39,7 +39,7 @@ export default class az_rpg extends Plugin {
 			(leaf) => new azrpg_view_stat(this, leaf)
 		);
 
-		this.addRibbonIcon("dice", "Open Hello World View", () => {
+		this.addRibbonIcon("dice", "AZ-RPG", () => {
 			this.activateView(VIEW_TYPE_STAT);
 		});
 

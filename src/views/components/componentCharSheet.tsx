@@ -7,12 +7,10 @@ import { rpgCreature } from "../../classes/rpgCreature";
 import { StrictMode } from "react";
 import CharacterSheet, { SheetTheme } from "../sheets/CharacterSheet";
 import az_rpg from "main";
+import { themes } from "../themes";
 
 export const VIEW_TYPE_STAT = "rpg_view_character_sheet";
 
-const themes: { [key: string]: SheetTheme } = {
-	vampire: { showTotals: true, primaryColor: "crimson", useBlood: true },
-};
 export class componentCharSheet extends rpgBaseExtendedComponent {
 	readonly creature: rpgCreature;
 	root: Root | null = null;
