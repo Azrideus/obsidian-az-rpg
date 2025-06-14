@@ -63,8 +63,8 @@
   height: 297mm;
 }
 
-.h-\[5\.1mm\] {
-  height: 5.1mm;
+.h-\[5mm\] {
+  height: 5mm;
 }
 
 .h-full {
@@ -179,48 +179,24 @@
   padding-left: 0.5rem;
 }
 
-.pt-\[10mm\] {
-  padding-top: 10mm;
-}
-
-.pt-\[11mm\] {
-  padding-top: 11mm;
-}
-
 .pt-\[12mm\] {
   padding-top: 12mm;
-}
-
-.pt-\[13mm\] {
-  padding-top: 13mm;
-}
-
-.pt-\[14mm\] {
-  padding-top: 14mm;
 }
 
 .text-center {
   text-align: center;
 }
 
-.font-felipa {
-  font-family: Felipa;
-}
-
-.font-poppins {
-  font-family: Poppins;
-}
-
-.font-\[poppins\] {
-  font-family: poppins;
-}
-
 .font-\[inter\] {
   font-family: inter;
 }
 
-.text-\[0\.9em\] {
-  font-size: 0.9em;
+.font-felipa {
+  font-family: Felipa;
+}
+
+.text-\[0\.7em\] {
+  font-size: 0.7em;
 }
 
 .text-\[11pt\] {
@@ -241,10 +217,6 @@
 
 .text-\[8pt\] {
   font-size: 8pt;
-}
-
-.text-\[0\.7em\] {
-  font-size: 0.7em;
 }
 
 .font-bold {

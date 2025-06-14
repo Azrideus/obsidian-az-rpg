@@ -1,17 +1,24 @@
 import { App } from "obsidian";
 import { SharedProps } from "./CharacterSheet";
+import LinkedField from "../shared/LinkedField";
+import LinkedDotView from "../shared/LinkedDotView";
 
-export default function StatAdvantages(props: SharedProps) {
-	const advantage_list = [];
-	for (let index = 0; index < 4; index++) {
-		advantage_list.push(<ItemLine index={index} {...props} key={index} />);
+export default function StatItems(props: SharedProps) {
+	const item_list = [];
+	for (let index = 0; index < 5; index++) {
+		item_list.push(<ItemLine index={index} {...props} key={index} />);
 	}
-	return <div className="flex flex-col w-full ">{advantage_list}</div>;
+	return <div className="flex flex-col w-full ">{item_list}</div>;
 }
 function ItemLine(props: SharedProps & { index: number }) {
 	return (
 		<div className="flex flex-row justify-center items-center az-bottom-dashed opacity-80">
-			<span>{String(1 + props.index) + ". "}</span>
+			<LinkedField
+				target={props.creature}
+				type="text"
+				field_name={`item_${props.index}`}
+				className="flex-1 !pt-0 !border-none !bg-transparent"
+			/>
 		</div>
 	);
 }

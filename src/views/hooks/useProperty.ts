@@ -1,7 +1,7 @@
 import React from "react";
-import { rpgCreature, StatKeyType } from "src/classes/rpgCreature";
+import { rpgBaseClass } from "src/classes/base/rpgBaseClass";
 
-export default function useProperty(creature: rpgCreature, prop_key: string) {
+export default function useProperty(creature: rpgBaseClass, prop_key: string) {
 	const [propValue, setPropValue] = React.useState(creature.get(prop_key));
 	const set = React.useCallback(
 		(value: any) => {

@@ -25,7 +25,7 @@ export const VIEW_TYPE_STAT = "rpg_view";
  * Item
  */
 export class azrpg_view_stat extends azrpg_view_base {
-	target_class: rpgBaseClass;
+	target: rpgBaseClass;
 	cmp: rpgBaseExtendedComponent;
 
 	refreshButton: HTMLElement;
@@ -97,21 +97,21 @@ export class azrpg_view_stat extends azrpg_view_base {
 		this.contentContainer.empty();
 		switch (this.target_file_type) {
 			case "creature":
-				this.target_class = new rpgCreature(this.app, this.target_file);
+				this.target = new rpgCreature(this.app, this.target_file);
 				this.cmp = new componentCharSheet(
 					this.app,
 					this.plugin,
 					this.contentContainer,
-					this.target_class as rpgCreature
+					this.target as rpgCreature
 				);
 				break;
 			case "item":
-				this.target_class = new rpgItem(this.app, this.target_file);
+				this.target = new rpgItem(this.app, this.target_file);
 				this.cmp = new componentItem(
 					this.app,
 					this.plugin,
 					this.contentContainer,
-					this.target_class as rpgItem
+					this.target as rpgItem
 				);
 				break;
 			default:

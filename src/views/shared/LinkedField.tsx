@@ -2,14 +2,15 @@ import clsx from "clsx";
 import useProperty from "../hooks/useProperty";
 import { rpgCreature } from "../../classes/rpgCreature";
 import { HTMLInputTypeAttribute } from "react";
+import { rpgBaseClass } from "src/classes/base/rpgBaseClass";
 
 export default function LinkedField(props: {
 	field_name: string;
 	className?: string;
 	type: HTMLInputTypeAttribute;
-	creature: rpgCreature;
+	target: rpgBaseClass;
 }) {
-	const [value, set_value] = useProperty(props.creature, props.field_name);
+	const [value, set_value] = useProperty(props.target, props.field_name);
 	return (
 		<input
 			key={props.field_name}

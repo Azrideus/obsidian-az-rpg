@@ -14,7 +14,7 @@ export default function CharacterStats(props: SharedProps) {
 	const ABILITY_CATEGORIES = ["talents", "skills", "knowledges"] as const;
 
 	return (
-		<div className="flex flex-col w-full items-center px-[1.5cm] gap-2">
+		<>
 			<BigBlock title="Attributes">
 				{ATTRIBUTE_CATEGORIES.map((category) => (
 					<StatGroup
@@ -35,15 +35,6 @@ export default function CharacterStats(props: SharedProps) {
 					/>
 				))}
 			</BigBlock>
-			<BigBlock title="Advantages">
-				<StatAdvantages {...props} />
-			</BigBlock>
-			<BigBlock title="Magical Abilities">
-				<StatMagic {...props} />
-			</BigBlock>
-			<BigBlock title="">
-				<StatHPArea {...props} />
-			</BigBlock>
-		</div>
+		</>
 	);
 }

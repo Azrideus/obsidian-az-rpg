@@ -3,6 +3,12 @@ import { rpgCreature } from "src/classes/rpgCreature";
 import SheetBackground from "./SheetBackground";
 import CharacterTitle from "./CharacterTitle";
 import CharacterStats from "./CharacterStats";
+import BigBlock from "./blocks/BigBlock";
+import StatAdvantages from "./StatAdvantages";
+import StatMagic from "./StatMagic";
+import StatHPArea from "./StatHPArea";
+import StatItems from "./StatItems";
+import SmallBlock from "./blocks/SmallBlock";
 export type SheetTheme = {
 	primaryColor: string;
 	image: string;
@@ -22,11 +28,23 @@ export default function CharacterSheet(props: SharedProps) {
 				<SheetBackground {...props} />
 
 				<div
-					className="absolute inset-0 flex flex-col items-center"
+					className="absolute inset-0 flex flex-col items-center px-[1.5cm]  gap-2"
 					style={{ zIndex: 2 }}
 				>
 					<CharacterTitle {...props} />
 					<CharacterStats {...props} />
+					<BigBlock>
+						<SmallBlock title="Items">
+							<StatItems {...props} />
+						</SmallBlock>
+						<SmallBlock title="Magical Abilities">
+							<StatMagic {...props} />
+						</SmallBlock>
+					</BigBlock>
+
+					<BigBlock title="">
+						<StatHPArea {...props} />
+					</BigBlock>
 				</div>
 			</div>
 			<div className="w-[210mm] h-[297mm] relative">

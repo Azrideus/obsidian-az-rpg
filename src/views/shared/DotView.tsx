@@ -1,10 +1,11 @@
 import clsx from "clsx";
 import UnderlineView from "./UnderlineView";
-import { rpgCreature } from "src/classes/rpgCreature";
 import { SharedProps } from "../sheets/CharacterSheet";
+import { rpgBaseClass } from "src/classes/base/rpgBaseClass";
 
 export type DotViewProps = SharedProps & {
-	creature: rpgCreature;
+	target: rpgBaseClass;
+	hidden?: boolean;
 	label?: string;
 	color?: string;
 	dotSymbol?: string;
@@ -12,6 +13,7 @@ export type DotViewProps = SharedProps & {
 	dotSpacing?: number;
 	max?: number;
 	showValue?: boolean;
+	className?: string;
 };
 export type DotViewWithValueProps = DotViewProps & {
 	value: any;
@@ -25,17 +27,18 @@ export default function DotView(props: DotViewWithValueProps) {
 	const dotSize = props.dotSize ?? 18;
 	const circles = dotSymbol.repeat(Math.max(max, value)).split("");
 	const label = props.label;
-	const hidden = !label || label === "";
+	const hidden = props.hidden ?? (!label || label === "");
 	const color = props.color ?? props.theme?.primaryColor ?? "crimson";
 
 	return (
 		<UnderlineView
+			className={props.className}
 			label={label}
 			hidden={hidden}
 			info={props.showValue ? `${value}/${max}` : undefined}
 		>
 			<div
-				className="font-mono  tracking-tighter leading-[0] flex flex-row"
+				className="font-mono tracking-tighter leading-[0] flex flex-row"
 				style={{ fontSize: `${dotSize}pt` }}
 			>
 				{circles.map((circle, index) => {

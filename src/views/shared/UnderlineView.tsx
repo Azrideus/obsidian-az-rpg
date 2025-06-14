@@ -1,6 +1,7 @@
 import clsx from "clsx";
 export default function UnderlineView(props: {
 	label?: string;
+	className?: string;
 	children?: any;
 	hidden?: boolean;
 	info?: any;
@@ -9,8 +10,9 @@ export default function UnderlineView(props: {
 	return (
 		<div
 			className={clsx(
-				"flex justify-between items-center gap-[1mm] h-[5.1mm]",
-				hidden ? " invisible" : " visible"
+				"flex justify-between items-center gap-[1mm] h-[5mm]",
+				hidden ? " invisible" : " visible",
+				props.className
 			)}
 		>
 			<span className="capitalize text-[11pt] leading-snug font-bold">

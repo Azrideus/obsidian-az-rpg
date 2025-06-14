@@ -18,19 +18,19 @@ function AdvantageLine(props: SharedProps & { index: number }) {
 		<div className="flex flex-row justify-center items-center az-bottom-dashed opacity-80">
 			<span>{String(1 + props.index) + ". "}</span>
 			<LinkedField
-				creature={props.creature}
+				target={props.creature}
 				type="text"
 				field_name={`bonus_text_${props.index}`}
 				className="flex-1 !pt-0 !border-none !bg-transparent"
 			/>
 			<LinkedField
-				creature={props.creature}
+				target={props.creature}
 				type="text"
 				field_name={`bonus_key_${props.index}`}
 				className="font-mono !pt-0 !border-none !bg-transparent"
 			/>
 			<LinkedField
-				creature={props.creature}
+				target={props.creature}
 				type="number"
 				field_name={`bonus_value_${props.index}`}
 				className="font-mono !pt-0 !border-none !bg-transparent w-16"

@@ -28,7 +28,7 @@ export default function StatHPArea(props: SharedProps) {
 					info={props.creature.get_xp() + "/" + total_xp}
 				>
 					<LinkedField
-						creature={props.creature}
+						target={props.creature}
 						field_name="total_xp"
 						type="number"
 						className="!bg-transparent !border-none w-16"
@@ -36,7 +36,7 @@ export default function StatHPArea(props: SharedProps) {
 				</UnderlineView>
 				<LinkedDotView
 					{...props}
-					creature={props.creature}
+					target={props.creature}
 					field_name={"willpower"}
 					dotSymbol="◇"
 					dotSize={14}
@@ -47,7 +47,7 @@ export default function StatHPArea(props: SharedProps) {
 				/>
 				<LinkedDotView
 					{...props}
-					creature={props.creature}
+					target={props.creature}
 					field_name="shield"
 					dotSymbol="▢"
 					dotSize={14}
@@ -58,7 +58,7 @@ export default function StatHPArea(props: SharedProps) {
 				/>
 				<LinkedDotView
 					{...props}
-					creature={props.creature}
+					target={props.creature}
 					field_name="hp"
 					dotSymbol="♡"
 					dotSize={16}
@@ -70,7 +70,7 @@ export default function StatHPArea(props: SharedProps) {
 
 				<LinkedDotView
 					{...props}
-					creature={props.creature}
+					target={props.creature}
 					field_name={props.theme.manaUnit}
 					label={props.theme.manaUnit}
 					dotSymbol={props.theme.manaSymbol}

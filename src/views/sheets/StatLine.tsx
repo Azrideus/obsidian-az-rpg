@@ -21,6 +21,7 @@ export default function StatLine(
 	return (
 		<DotView
 			{...props}
+			target={props.creature}
 			set_value={set_value}
 			value={value}
 			label={label}
