@@ -17,7 +17,7 @@ export type DotViewProps = SharedProps & {
 };
 export type DotViewWithValueProps = DotViewProps & {
 	value: any;
-	set_value: (v: any) => void;
+	set_value?: (v: any) => void;
 };
 export default function DotView(props: DotViewWithValueProps) {
 	const { value, set_value } = props;
@@ -47,14 +47,21 @@ export default function DotView(props: DotViewWithValueProps) {
 					return (
 						<div
 							aria-checked={isFilled}
-							onClick={() => {
-								if (circleNumber == 1 && value == 1) {
-									// Reset to 0 if possible
-									set_value(0);
-								} else {
-									set_value(circleNumber);
-								}
-							}}
+							onClick={
+								set_value != null
+									? () => {
+											if (
+												circleNumber == 1 &&
+												value == 1
+											) {
+												// Reset to 0 if possible
+												set_value(0);
+											} else {
+												set_value(circleNumber);
+											}
+									  }
+									: undefined
+							}
 							key={index}
 							style={{
 								color: isFilled ? color : "",
