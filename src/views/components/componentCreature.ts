@@ -92,32 +92,32 @@ export class componentCreature extends rpgBaseExtendedComponent {
 				data: {},
 			},
 		};
-		for (const key in qslots) {
-			const [slot_count, slot_key] = (qslots as any)[key];
-			const items_in_slot = this.creature.get_items(slot_key);
-			let used_size = 0;
-			items_in_slot.map((r: rpgItem) => {
-				used_size += r.total_size();
-			});
+		// for (const key in qslots) {
+		// 	const [slot_count, slot_key] = (qslots as any)[key];
+		// 	const items_in_slot = this.creature.get_items(slot_key);
+		// 	let used_size = 0;
+		// 	items_in_slot.map((r: rpgItem) => {
+		// 		used_size += r.total_size();
+		// 	});
 
-			(slots_data.Items.data as any)[
-				key + ` (${used_size}/${slot_count})`
-			] = `INPUT[inlineListSuggester(${rpgItem.get_data_source()}):${slot_key}]`;
-		}
-		for (const s in slots_data) {
-			await rpgFieldMaker.render_statblock(
-				this,
-				s,
-				(slots_data as any)[s]
-			);
-		}
+		// 	(slots_data.Items.data as any)[
+		// 		key + ` (${used_size}/${slot_count})`
+		// 	] = `INPUT[inlineListSuggester(${rpgItem.get_data_source()}):${slot_key}]`;
+		// }
+		// for (const s in slots_data) {
+		// 	await rpgFieldMaker.render_statblock(
+		// 		this,
+		// 		s,
+		// 		(slots_data as any)[s]
+		// 	);
+		// }
 
-		this.item_repair_table = new componentRepairTable(
-			this.app,
-			this.containerEl.createEl("div"),
-			this.creature.get_items()
-		);
-		this.item_repair_table.onload();
+		// this.item_repair_table = new componentRepairTable(
+		// 	this.app,
+		// 	this.containerEl.createEl("div"),
+		// 	this.creature.get_items()
+		// );
+		// this.item_repair_table.onload();
 
 		rpgUtils.hookMarkdownLinkMouseEventHandlers(
 			this.app,

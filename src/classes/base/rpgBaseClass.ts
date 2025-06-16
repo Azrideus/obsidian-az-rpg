@@ -13,7 +13,8 @@ export class rpgBaseClass {
 	file_cache: CachedMetadata | null = null;
 	frontmatter: FrontMatterCache | null = null;
 	theme: SheetTheme | null = null;
-	constructor(app: App, p: TFile | string) {
+
+	constructor(app: App, p: TFile | string | null) {
 		this.app = app;
 		if (typeof p === "string") {
 			this.file = rpgUtils.getFileFromPath(app, p);

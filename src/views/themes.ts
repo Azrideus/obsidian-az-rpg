@@ -6,6 +6,7 @@ export const themes: { [key: string]: SheetTheme } = {
 		primaryColor: "crimson",
 		manaUnit: "blood",
 		manaSymbol: "●",
+		manaSize: 18,
 		image: "bg-vampire.png",
 	},
 	frost: {
@@ -13,6 +14,7 @@ export const themes: { [key: string]: SheetTheme } = {
 		primaryColor: "cyan",
 		manaUnit: "heat",
 		manaSymbol: "▽",
+		manaSize: 13,
 		image: "bg-frost.jpg",
 	},
 	snowpiercer: {
@@ -20,6 +22,7 @@ export const themes: { [key: string]: SheetTheme } = {
 		primaryColor: "#d34836",
 		manaUnit: "heat",
 		manaSymbol: "▽",
+		manaSize: 13,
 		image: "bg-snowpiercer.jpg",
 	},
 };

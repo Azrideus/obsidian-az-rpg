@@ -1,8 +1,12 @@
 import { rpgUtils } from "src/controllers/rpgUtils";
 import { rpgBaseClass as rpgBaseClass } from "./base/rpgBaseClass";
 import { rpgItem } from "./rpgItem";
+import { rpgSpell } from "./rpgSpell";
+import { App, TFile } from "obsidian";
 
 export const MAX_BONUS_COUNT = 4;
+export const MAX_COUNT_SPELL = 5;
+
 export const CLASS_CATEGORIES = [
 	"enhancer",
 	"emission",
@@ -102,16 +106,22 @@ export const CATEGORY_INFO: {
  * Base class for all creatures
  */
 export class rpgCreature extends rpgBaseClass {
-	get_items(slot_name = ""): rpgItem[] {
-		const slot_keys = [];
+	spells: rpgSpell[] = [];
+	items: rpgItem[] = [];
 
+	constructor(app: App, file: TFile) {
+		super(app, file);
+		this.refreshItemsAndSpells();
+	}
+
+	refreshItemsAndSpells() {
+		/* ---------------------------------- items --------------------------------- */
+		const slot_keys = [];
 		for (const key in this.frontmatter) {
 			if (key.startsWith("slot")) {
-				if (slot_name == "") slot_keys.push(key);
-				else if (key.includes(slot_name)) slot_keys.push(key);
+				slot_keys.push(key);
 			}
 		}
-
 		const unique_items: { [key: string]: rpgItem } = {};
 		for (const key of slot_keys) {
 			const slot_items = this.getArray(key);
@@ -128,8 +138,14 @@ export class rpgCreature extends rpgBaseClass {
 				}
 			});
 		}
+		this.items = Object.values(unique_items).map(
+			(r) => new rpgItem(this.app, this.file)
+		);
 
-		return Object.values(unique_items);
+		this.spells = [];
+		for (let index = 0; index < MAX_COUNT_SPELL; index++) {
+			this.spells.push(new rpgSpell(this.app, this.file, index));
+		}
 	}
 
 	/**

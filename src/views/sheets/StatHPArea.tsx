@@ -74,6 +74,7 @@ export default function StatHPArea(props: SharedProps) {
 					field_name={props.theme.manaUnit}
 					label={props.theme.manaUnit}
 					dotSymbol={props.theme.manaSymbol}
+					dotSize={props.theme.manaSize}
 					showValue
 					max={max_blood}
 				></LinkedDotView>

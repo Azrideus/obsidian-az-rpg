@@ -10,7 +10,7 @@ export class rpgItem extends rpgBaseClass {
 	static readonly TIER_REPAIR_MOD = 0.5;
 
 	item_count: number = 1;
-	constructor(app: App, p: TFile | string) {
+	constructor(app: App, p: TFile | string | null) {
 		super(app, p);
 	}
 	total_size() {

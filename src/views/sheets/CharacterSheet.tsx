@@ -15,6 +15,7 @@ export type SheetTheme = {
 	showTotals: boolean;
 	manaUnit: string;
 	manaSymbol: string;
+	manaSize?: number;
 };
 export type SharedProps = {
 	image_folder: string;
