@@ -8,6 +8,9 @@ import { rpgUtils } from "src/controllers/rpgUtils";
 export class rpgSpell extends rpgBaseClass {
 	readonly spell_index: number = 1;
 	spell_cost: number;
+	spell_hp: number;
+	spell_shield: number;
+	spell_willpower: number;
 
 	constructor(app: App, p: TFile | string | null, spell_index: number) {
 		super(app, p);
