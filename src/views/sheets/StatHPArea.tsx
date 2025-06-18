@@ -22,7 +22,7 @@ export default function StatHPArea(props: SharedProps) {
 		<div className="flex flex-row w-full ">
 			<div className="flex-1"> </div>
 
-			<div className="flex-1 flex flex-col gap-2">
+			<div className="flex-1 flex flex-col gap-2 text-[18pt]">
 				<UnderlineView
 					label="XP"
 					info={props.creature.get_xp() + "/" + total_xp}
@@ -37,35 +37,29 @@ export default function StatHPArea(props: SharedProps) {
 				<LinkedDotView
 					{...props}
 					target={props.creature}
+					style={props.theme.willpower}
 					field_name={"willpower"}
-					dotSymbol="◇"
-					dotSize={14}
 					showValue
 					label={"Willpower"}
 					max={10}
-					color="#f4b400"
 				/>
 				<LinkedDotView
 					{...props}
 					target={props.creature}
 					field_name="shield"
-					dotSymbol="▢"
-					dotSize={14}
+					style={props.theme.shield}
 					showValue
 					label={"shield"}
 					max={10}
-					color="#00a4ef"
 				/>
 				<LinkedDotView
 					{...props}
 					target={props.creature}
 					field_name="hp"
-					dotSymbol="♡"
-					dotSize={16}
+					style={props.theme.hp}
 					showValue
 					label={"HP"}
 					max={max_hp}
-					color="#a4c639"
 				/>
 
 				<LinkedDotView
@@ -73,8 +67,7 @@ export default function StatHPArea(props: SharedProps) {
 					target={props.creature}
 					field_name={props.theme.manaUnit}
 					label={props.theme.manaUnit}
-					dotSymbol={props.theme.manaSymbol}
-					dotSize={props.theme.manaSize}
+					style={props.theme.mana}
 					showValue
 					max={max_blood}
 				></LinkedDotView>

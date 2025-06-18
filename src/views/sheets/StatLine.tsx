@@ -18,9 +18,11 @@ export default function StatLine(
 		if (s.startsWith("__")) s = "";
 		return s;
 	}, [props.label, props.stat]);
+
 	return (
 		<DotView
 			{...props}
+			style={props.theme.stat}
 			target={props.creature}
 			set_value={set_value}
 			value={value}

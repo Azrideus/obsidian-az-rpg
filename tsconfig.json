@@ -17,6 +17,7 @@
 	"include": [
 		"**/*.ts",
 		"src/views/sheets/CharacterSheet.tsx",
-		"src/views/components/componentCharSheet.tsx"
+		"src/views/components/componentCharSheet.tsx",
+		"src/views/themes.tsx"
 	]
 }

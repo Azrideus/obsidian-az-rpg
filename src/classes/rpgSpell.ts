@@ -1,16 +1,17 @@
 import { App, TFile } from "obsidian";
 import { rpgBaseClass } from "./base/rpgBaseClass";
-import { rpgUtils } from "src/controllers/rpgUtils";
+import { string_grab_number } from "@azrico/string.basic";
 
 /**
  * Base class for all creatures
  */
 export class rpgSpell extends rpgBaseClass {
 	readonly spell_index: number = 1;
-	spell_cost: number;
-	spell_hp: number;
-	spell_shield: number;
-	spell_willpower: number;
+	cost: number;
+	hp: number;
+	shield: number;
+	willpower: number;
+	damage: number;
 
 	constructor(app: App, p: TFile | string | null, spell_index: number) {
 		super(app, p);
@@ -18,12 +19,33 @@ export class rpgSpell extends rpgBaseClass {
 		this.refresh_spell_details();
 	}
 	refresh_spell_details() {
-		this.spell_cost = Number(
-			String(this.spell_name.match(/\[\d\]/i)?.[0] || "0").replace(
-				/\[|\]/g,
-				""
-			)
+		this.cost = Number(
+			string_grab_number(this.spell_name, [
+				"[%]",
+				"cost:%",
+				"mana:%",
+				"blood:%",
+				"b:%",
+			])
 		);
+		this.damage = string_grab_number(this.spell_name, [
+			"d:%",
+			/d(\d+)/,
+			"damage:%",
+			"dmg:%",
+		]);
+		this.hp = string_grab_number(this.spell_name, ["hp:%", /h(\d+)/]);
+		this.shield = string_grab_number(this.spell_name, [
+			"shield:%",
+			"s:%",
+			/s(\d+)/,
+		]);
+		this.willpower = string_grab_number(this.spell_name, [
+			"willpower:%",
+			"wp:%",
+			"w:%",
+			/w(\d+)/,
+		]);
 	}
 	get spell_name() {
 		return this.getStr_lc(this.spell_meta_name);

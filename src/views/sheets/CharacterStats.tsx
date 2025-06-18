@@ -4,7 +4,7 @@ import { SharedProps } from "./CharacterSheet";
 import LineDivider from "../shared/LineDivider";
 import StatGroup from "./blocks/StatGroup";
 import StatAdvantages from "./StatAdvantages";
-import StatMagic from "./StatMagic";
+import StatSpells from "./StatSpells";
 import StatHPArea from "./StatHPArea";
 import BigBlock from "./blocks/BigBlock";
 

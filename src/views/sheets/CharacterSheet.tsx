@@ -5,18 +5,12 @@ import CharacterTitle from "./CharacterTitle";
 import CharacterStats from "./CharacterStats";
 import BigBlock from "./blocks/BigBlock";
 import StatAdvantages from "./StatAdvantages";
-import StatMagic from "./StatMagic";
+import StatSpells from "./StatSpells";
 import StatHPArea from "./StatHPArea";
 import StatItems from "./StatItems";
 import SmallBlock from "./blocks/SmallBlock";
-export type SheetTheme = {
-	primaryColor: string;
-	image: string;
-	showTotals: boolean;
-	manaUnit: string;
-	manaSymbol: string;
-	manaSize?: number;
-};
+import { SheetTheme } from "../themes";
+
 export type SharedProps = {
 	image_folder: string;
 	creature: rpgCreature;
@@ -39,7 +33,7 @@ export default function CharacterSheet(props: SharedProps) {
 							<StatItems {...props} />
 						</SmallBlock>
 						<SmallBlock title="Magical Abilities">
-							<StatMagic {...props} />
+							<StatSpells {...props} />
 						</SmallBlock>
 					</BigBlock>
 

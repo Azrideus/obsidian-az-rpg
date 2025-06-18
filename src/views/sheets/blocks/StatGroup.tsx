@@ -28,7 +28,7 @@ export default function StatGroup(
 	}, [props.title, props.stats, showTotals]);
 
 	return (
-		<SmallBlock title={title}>
+		<SmallBlock title={title} className="text-[18pt]">
 			{props.stats.map((s) => {
 				return <StatLine {...props} key={s} stat={s} />;
 			})}
