@@ -21,9 +21,8 @@ export default function CharacterSheet(props: SharedProps) {
 		<div>
 			<div className="w-[210mm] h-[297mm] relative">
 				<SheetBackground {...props} />
-
 				<div
-					className="absolute inset-0 flex flex-col items-center px-[1.5cm]  gap-2"
+					className="absolute inset-0 flex flex-col items-center px-[1.6cm]  gap-2"
 					style={{ zIndex: 2 }}
 				>
 					<CharacterTitle {...props} />

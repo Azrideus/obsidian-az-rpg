@@ -1,5 +1,3 @@
-import { App } from "obsidian";
-import SheetBackground from "./SheetBackground";
 import { SharedProps } from "./CharacterSheet";
 
 export default function CharacterTitle(props: SharedProps) {

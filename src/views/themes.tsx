@@ -24,8 +24,7 @@ export const themes: { [key: string]: SheetTheme } = {
 		manaUnit: "blood",
 		stat: { size: "1em", symbol: "●", color: "crimson" },
 		damage: { size: "0.7em", symbol: "⚔️", color: "crimson" },
-
-		mana: { size: "1em", symbol: "●", color: "crimson" },
+		mana: { size: "0.8em", symbol: "⬡", color: "crimson" },
 		hp: { size: "1em", symbol: "♡", color: "#a4c639" },
 		shield: { size: "0.9em", symbol: "▢", color: "#00a4ef" },
 		willpower: { size: "0.65em", symbol: "◇", color: "#f4b400" },
