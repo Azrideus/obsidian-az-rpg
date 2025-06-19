@@ -4,8 +4,8 @@ import { rpgItem } from "./rpgItem";
 import { rpgSpell } from "./rpgSpell";
 import { App, TFile } from "obsidian";
 
-export const MAX_BONUS_COUNT = 4;
-export const MAX_COUNT_SPELL = 5;
+export const MAX_BONUS_COUNT = 5;
+export const MAX_COUNT_SPELL = 7;
 
 export const CLASS_CATEGORIES = [
 	"enhancer",

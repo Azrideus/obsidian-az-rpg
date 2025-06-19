@@ -18,12 +18,12 @@ export default function StatHPArea(props: SharedProps) {
 	const max_blood = details.blood;
 
 	const [total_xp, set_total_xp] = useProperty(props.creature, "total_xp");
+	const sharedClassName = "!h-[5mm]";
 	return (
-		<div className="flex flex-row w-full ">
-			<div className="flex-1"> </div>
-
+		<div className="flex flex-row w-full flex-1 ">
 			<div className="flex-1 flex flex-col gap-2 text-[18pt]">
 				<UnderlineView
+					className={sharedClassName}
 					label="XP"
 					info={props.creature.get_xp() + "/" + total_xp}
 				>
@@ -36,6 +36,7 @@ export default function StatHPArea(props: SharedProps) {
 				</UnderlineView>
 				<LinkedDotView
 					{...props}
+					className={sharedClassName}
 					target={props.creature}
 					style={props.theme.willpower}
 					field_name={"willpower"}
@@ -45,15 +46,17 @@ export default function StatHPArea(props: SharedProps) {
 				/>
 				<LinkedDotView
 					{...props}
+					className={sharedClassName}
 					target={props.creature}
 					field_name="shield"
 					style={props.theme.shield}
 					showValue
 					label={"shield"}
-					max={10}
+					max={5}
 				/>
 				<LinkedDotView
 					{...props}
+					className={sharedClassName}
 					target={props.creature}
 					field_name="hp"
 					style={props.theme.hp}
@@ -64,6 +67,7 @@ export default function StatHPArea(props: SharedProps) {
 
 				<LinkedDotView
 					{...props}
+					className={sharedClassName}
 					target={props.creature}
 					field_name={props.theme.manaUnit}
 					label={props.theme.manaUnit}

@@ -2,10 +2,11 @@ import { App } from "obsidian";
 import { SharedProps } from "./CharacterSheet";
 import LinkedField from "../shared/LinkedField";
 import LinkedDotView from "../shared/LinkedDotView";
+import { MAX_COUNT_SPELL } from "src/classes/rpgCreature";
 
 export default function StatItems(props: SharedProps) {
 	const item_list = [];
-	for (let index = 0; index < 5; index++) {
+	for (let index = 0; index < MAX_COUNT_SPELL; index++) {
 		item_list.push(<ItemLine index={index} {...props} key={index} />);
 	}
 	return <div className="flex flex-col w-full ">{item_list}</div>;

@@ -36,9 +36,13 @@ export default function CharacterSheet(props: SharedProps) {
 							<StatSpells {...props} />
 						</SmallBlock>
 					</BigBlock>
-
-					<BigBlock title="">
-						<StatHPArea {...props} />
+					<BigBlock>
+						<SmallBlock title="Bonuses and Flaws">
+							<StatAdvantages {...props} />
+						</SmallBlock>
+						<SmallBlock title="Info">
+							<StatHPArea {...props} />
+						</SmallBlock>
 					</BigBlock>
 				</div>
 			</div>

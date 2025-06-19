@@ -59,6 +59,10 @@
   display: none;
 }
 
+.\!h-\[10mm\] {
+  height: 10mm !important;
+}
+
 .h-\[297mm\] {
   height: 297mm;
 }
@@ -69,6 +73,22 @@
 
 .h-full {
   height: 100%;
+}
+
+.\!h-\[5mm\] {
+  height: 5mm !important;
+}
+
+.h-\[8mm\] {
+  height: 8mm;
+}
+
+.\!h-\[8mm\] {
+  height: 8mm !important;
+}
+
+.\!h-\[6mm\] {
+  height: 6mm !important;
 }
 
 .w-16 {
@@ -143,18 +163,6 @@
   gap: 1mm;
 }
 
-.divide-y-2 > :not([hidden]) ~ :not([hidden]) {
-  --tw-divide-y-reverse: 0;
-  border-top-width: calc(2px * calc(1 - var(--tw-divide-y-reverse)));
-  border-bottom-width: calc(2px * var(--tw-divide-y-reverse));
-}
-
-.divide-x-2 > :not([hidden]) ~ :not([hidden]) {
-  --tw-divide-x-reverse: 0;
-  border-right-width: calc(2px * var(--tw-divide-x-reverse));
-  border-left-width: calc(2px * calc(1 - var(--tw-divide-x-reverse)));
-}
-
 .border-8 {
   border-width: 8px;
 }
@@ -223,6 +231,14 @@
   font-size: 15pt;
 }
 
+.text-\[16pt\] {
+  font-size: 16pt;
+}
+
+.text-\[18pt\] {
+  font-size: 18pt;
+}
+
 .text-\[20pt\] {
   font-size: 20pt;
 }
@@ -233,22 +249,6 @@
 
 .text-\[8pt\] {
   font-size: 8pt;
-}
-
-.text-\[18pt\] {
-  font-size: 18pt;
-}
-
-.text-\[10pt\] {
-  font-size: 10pt;
-}
-
-.text-\[12pt\] {
-  font-size: 12pt;
-}
-
-.text-\[16pt\] {
-  font-size: 16pt;
 }
 
 .font-bold {
