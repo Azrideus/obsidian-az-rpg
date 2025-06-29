@@ -1,7 +1,14 @@
-import { App, Editor, Keymap, MarkdownView, TFile } from "obsidian";
+import {
+	App,
+	Editor,
+	Keymap,
+	MarkdownView,
+	TFile,
+	WorkspaceLeaf,
+	WorkspaceTabs,
+} from "obsidian";
 import { DO_NOT_USE_OR_YOU_WILL_BE_FIRED_EXPERIMENTAL_IMG_SRC_TYPES } from "react";
-import { SheetTheme } from "src/views/sheets/CharacterSheet";
-import { ThemeNameType, themes } from "src/views/themes";
+import { SheetTheme, themes } from "src/views/themes";
 
 export type RPG_FileType = "creature" | "item" | "none";
 export type RPG_FileTypeObject = {
@@ -11,6 +18,42 @@ export class rpgUtils {
 	static getActiveEditor(app: App): Editor | null {
 		const view = app.workspace.getActiveViewOfType(MarkdownView);
 		return view ? view.editor : null;
+	}
+	static getAllLeaves(app: App): WorkspaceLeaf[] {
+		const leaves: WorkspaceLeaf[] = [];
+		app.workspace.iterateAllLeaves((leaf) => {
+			leaves.push(leaf);
+		});
+		return leaves;
+	}
+	static getLeavesOfGroup(app: App, leaf: WorkspaceLeaf): WorkspaceLeaf[] {
+		const searchGroup = (leaf as any).group;
+		return this.getAllLeaves(app).filter((l) => {
+			return (l as any).group == searchGroup;
+		});
+	}
+
+	static getFileFromLeaf(leaf: WorkspaceLeaf): TFile | null {
+		const view = leaf.view;
+
+		if (view instanceof MarkdownView) {
+			return view.file;
+		}
+
+		return null;
+	}
+
+	static getRelatdFile(app: App, leaf: WorkspaceLeaf): TFile | null {
+		//TODO: We need a solution to open more than 1 Stat Sheet at Once!
+		return app.workspace.getActiveFile();
+		const leavesInSameGroup = this.getLeavesOfGroup(app, leaf).filter(
+			(s) => s !== leaf
+		);
+		if (leavesInSameGroup.length === 0) {
+		} else {
+			const relatedFile = this.getFileFromLeaf(leavesInSameGroup[0]);
+			return relatedFile;
+		}
 	}
 	static getActiveFile(app: App): TFile | null {
 		return app.workspace.getActiveFile();
@@ -98,7 +141,6 @@ export class rpgUtils {
 
 		if (use_folder && file_path !== "") {
 			const file_parts = file_path.split("/");
-			console.log(file_parts);
 			/* -------------------------- get type from folder -------------------------- */
 			for (mapping_key in folder_mappings) {
 				const mapping_list = folder_mappings[mapping_key];

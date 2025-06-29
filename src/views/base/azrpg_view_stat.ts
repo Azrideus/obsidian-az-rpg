@@ -34,14 +34,6 @@ export class azrpg_view_stat extends azrpg_view_base {
 
 	constructor(plugin: az_rpg, leaf: WorkspaceLeaf) {
 		super(plugin, leaf);
-		this.registerEvent(
-			this.app.workspace.on("active-leaf-change", () => {
-				const active_file = rpgUtils.getActiveFile(this.app);
-				if (active_file) {
-					this.setTargetFile(active_file);
-				}
-			})
-		);
 	}
 
 	getViewType(): string {
@@ -53,8 +45,9 @@ export class azrpg_view_stat extends azrpg_view_base {
 	}
 
 	setTargetFile(target_file: TFile) {
-		super.setTargetFile(target_file);
-		this.preparePage();
+		const isChanged = super.setTargetFile(target_file);
+		if (isChanged) this.preparePage();
+		return isChanged;
 	}
 	preparePage() {
 		const container = this.containerEl.children[1];
@@ -65,17 +58,17 @@ export class azrpg_view_stat extends azrpg_view_base {
 		});
 		switch (this.target_file_type) {
 			case "creature":
-				this.headerRow.createEl("h2", {
-					text: `Creature View - ${this.target_file.basename}`,
-				});
+				// this.headerRow.createEl("h2", {
+				// 	text: `Creature View - ${this.target_file.basename}`,
+				// });
 				this.refreshButton = this.headerRow.createEl("button", {
 					text: "🔄 Refresh",
 				});
 				break;
 			case "item":
-				this.headerRow.createEl("h2", {
-					text: `Item View - ${this.target_file.basename}`,
-				});
+				// this.headerRow.createEl("h2", {
+				// 	text: `Item View - ${this.target_file.basename}`,
+				// });
 				this.refreshButton = this.headerRow.createEl("button", {
 					text: "🔄 Refresh",
 				});

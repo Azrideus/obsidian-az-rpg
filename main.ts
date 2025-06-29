@@ -9,6 +9,7 @@ import {
 	Setting,
 	WorkspaceLeaf,
 } from "obsidian";
+import { rpgUtils } from "src/controllers/rpgUtils";
 import {
 	azrpg_view_stat,
 	VIEW_TYPE_STAT,
@@ -39,8 +40,8 @@ export default class az_rpg extends Plugin {
 			(leaf) => new azrpg_view_stat(this, leaf)
 		);
 
-		this.addRibbonIcon("dice", "AZ-RPG", () => {
-			this.activateView(VIEW_TYPE_STAT);
+		this.addRibbonIcon("scroll", "AZ-RPG", () => {
+			this.openRpgView(VIEW_TYPE_STAT);
 		});
 
 		this.registerMarkdownCodeBlockProcessor(
@@ -57,16 +58,19 @@ export default class az_rpg extends Plugin {
 		);
 	}
 
-	async activateView(view_name: string) {
+	async openRpgView(view_name: string) {
 		const { workspace } = this.app;
-		const leaves = workspace.getLeavesOfType(view_name);
-		if (leaves.length === 0) {
-			await workspace.getRightLeaf(false)?.setViewState({
+		// const leaves = workspace.getLeavesOfType(view_name);
+		// Get current right leaf
+		const rightLeaf = workspace.getRightLeaf(false);
+
+		if (rightLeaf) {
+			await rightLeaf.setViewState({
 				type: view_name,
 				active: true,
 			});
+			workspace.revealLeaf(rightLeaf);
 		}
-		workspace.revealLeaf(workspace.getLeavesOfType(view_name)[0]);
 	}
 
 	onunload() {}

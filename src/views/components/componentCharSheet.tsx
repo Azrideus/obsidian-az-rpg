@@ -5,9 +5,8 @@ import { componentRepairTable } from "./componentRepairTable";
 import { Root, createRoot } from "react-dom/client";
 import { rpgCreature } from "../../classes/rpgCreature";
 import { StrictMode } from "react";
-import CharacterSheet, { SheetTheme } from "../sheets/CharacterSheet";
+import CharacterSheet from "../sheets/CharacterSheet";
 import az_rpg from "main";
-import { themes } from "../themes";
 import { rpgUtils } from "src/controllers/rpgUtils";
 
 export const VIEW_TYPE_STAT = "rpg_view_character_sheet";

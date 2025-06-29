@@ -1,7 +1,7 @@
 import { App, CachedMetadata, FrontMatterCache, TFile } from "obsidian";
 import { DataviewApi, getAPI } from "obsidian-dataview";
 import { rpgUtils } from "../../controllers/rpgUtils";
-import { SheetTheme } from "src/views/sheets/CharacterSheet";
+import { SheetTheme } from "src/views/themes";
 
 /**
  * Wrapper class for all classes in the azrpg project.
