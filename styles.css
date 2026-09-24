@@ -59,8 +59,8 @@
   display: none;
 }
 
-.\!h-\[10mm\] {
-  height: 10mm !important;
+.\!h-\[5mm\] {
+  height: 5mm !important;
 }
 
 .h-\[297mm\] {
@@ -73,22 +73,6 @@
 
 .h-full {
   height: 100%;
-}
-
-.\!h-\[5mm\] {
-  height: 5mm !important;
-}
-
-.h-\[8mm\] {
-  height: 8mm;
-}
-
-.\!h-\[8mm\] {
-  height: 8mm !important;
-}
-
-.\!h-\[6mm\] {
-  height: 6mm !important;
 }
 
 .w-16 {
@@ -185,19 +169,14 @@
      object-fit: cover;
 }
 
-.px-\[1\.5cm\] {
-  padding-left: 1.5cm;
-  padding-right: 1.5cm;
+.px-\[1\.6cm\] {
+  padding-left: 1.6cm;
+  padding-right: 1.6cm;
 }
 
 .py-1 {
   padding-top: 0.25rem;
   padding-bottom: 0.25rem;
-}
-
-.px-\[1\.6cm\] {
-  padding-left: 1.6cm;
-  padding-right: 1.6cm;
 }
 
 .\!pt-0 {
@@ -299,6 +278,10 @@
 
 .opacity-80 {
   opacity: 0.8;
+}
+
+.filter {
+  filter: var(--tw-blur) var(--tw-brightness) var(--tw-contrast) var(--tw-grayscale) var(--tw-hue-rotate) var(--tw-invert) var(--tw-saturate) var(--tw-sepia) var(--tw-drop-shadow);
 }
 
 .\[number\:Range\] {

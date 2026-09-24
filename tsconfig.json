@@ -9,6 +9,7 @@
 		"allowJs": true,
 		"noImplicitAny": true,
 		"moduleResolution": "node",
+		"allowSyntheticDefaultImports": true,
 		"importHelpers": true,
 		"isolatedModules": true,
 		"strictNullChecks": true,
